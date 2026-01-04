@@ -2,9 +2,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import Dashboard from "@/pages/admin/Dashboard";
+import Universities from "@/pages/admin/Universities";
 import UniversityDetail from "@/pages/admin/UniversityDetail";
 import ProgramDetail from "@/pages/admin/ProgramDetail";
 import BatchDetail from "@/pages/admin/BatchDetail";
@@ -24,7 +25,7 @@ const App = () => (
         <Routes>
           <Route element={<AdminLayout />}>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/universities" element={<Navigate to="/" replace />} />
+            <Route path="/universities" element={<Universities />} />
             <Route path="/universities/:id" element={<UniversityDetail />} />
             <Route path="/universities/:id/programs/:programKey" element={<ProgramDetail />} />
             <Route path="/universities/:id/programs/:programKey/batches/:batchId" element={<BatchDetail />} />
