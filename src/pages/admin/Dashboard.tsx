@@ -14,6 +14,17 @@ import { Badge } from '@/components/ui/badge';
 import { KPICard } from '@/components/admin/KPICard';
 import { universities, getPendingExams } from '@/data/seedData';
 
+// Import university images
+import lpuCampus from '@/assets/universities/lpu-campus.jpg';
+import bitsCampus from '@/assets/universities/bits-campus.jpg';
+import srmCampus from '@/assets/universities/srm-campus.jpg';
+
+const universityImages: Record<string, string> = {
+  'lpu': lpuCampus,
+  'bits': bitsCampus,
+  'srm': srmCampus,
+};
+
 export default function Dashboard() {
   const totalStudents = universities.reduce((sum, u) => sum + u.studentsCount, 0);
   const pendingExams = getPendingExams();
@@ -98,51 +109,53 @@ export default function Dashboard() {
           </Link>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {universities.map((university) => (
             <Link 
               key={university.id} 
               to={`/universities/${university.id}`}
-              className="card-elevated p-6 hover:border-primary/30 transition-all group"
+              className="card-elevated overflow-hidden hover:border-primary/30 transition-all group"
             >
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                    <span className="text-primary font-bold text-lg">{university.code.slice(0, 2)}</span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors">
-                      {university.name}
-                    </h4>
-                    <Badge variant="secondary" className="text-xs mt-1">{university.code}</Badge>
-                  </div>
-                </div>
-                <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+              {/* University Image */}
+              <div className="relative h-40 overflow-hidden">
+                <img 
+                  src={universityImages[university.id]} 
+                  alt={university.name}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <Badge className="absolute top-3 left-3 bg-primary text-primary-foreground">
+                  {university.code}
+                </Badge>
               </div>
               
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Total Students</span>
-                  <span className="text-sm font-semibold text-foreground">{university.studentsCount.toLocaleString()}</span>
+              {/* Card Content */}
+              <div className="p-5">
+                <h4 className="font-display font-semibold text-lg text-foreground group-hover:text-primary transition-colors mb-1">
+                  {university.name}
+                </h4>
+                <p className="text-sm text-muted-foreground mb-4">
+                  {university.studentsCount.toLocaleString()} Students
+                </p>
+                
+                <div className="grid grid-cols-3 gap-3 mb-4">
+                  <div className="text-center">
+                    <p className="text-lg font-bold text-success">{university.avgScore}%</p>
+                    <p className="text-xs text-muted-foreground">Avg Score</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-lg font-bold text-foreground">{university.completion}%</p>
+                    <p className="text-xs text-muted-foreground">Completion</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-lg font-bold text-foreground">{university.attendance}%</p>
+                    <p className="text-xs text-muted-foreground">Attendance</p>
+                  </div>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Avg Score</span>
-                  <span className="text-sm font-semibold text-success">{university.avgScore}%</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Completion</span>
-                  <span className="text-sm font-semibold text-foreground">{university.completion}%</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Attendance</span>
-                  <span className="text-sm font-semibold text-foreground">{university.attendance}%</span>
-                </div>
-              </div>
 
-              <div className="mt-4 pt-4 border-t border-border">
-                <Button variant="ghost" className="w-full text-primary hover:text-primary hover:bg-primary/10">
-                  View University
-                </Button>
+                <div className="flex items-center justify-between pt-3 border-t border-border">
+                  <span className="text-sm font-medium text-primary">View University</span>
+                  <ArrowRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform" />
+                </div>
               </div>
             </Link>
           ))}
