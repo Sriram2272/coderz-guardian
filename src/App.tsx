@@ -7,6 +7,8 @@ import { AdminLayout } from "@/components/admin/AdminLayout";
 import Dashboard from "@/pages/admin/Dashboard";
 import Universities from "@/pages/admin/Universities";
 import UniversityDetail from "@/pages/admin/UniversityDetail";
+import Programs from "@/pages/admin/Programs";
+import ProgramDetailStandalone from "@/pages/admin/ProgramDetailStandalone";
 import ProgramDetail from "@/pages/admin/ProgramDetail";
 import BatchDetail from "@/pages/admin/BatchDetail";
 import SectionDetail from "@/pages/admin/SectionDetail";
@@ -32,16 +34,14 @@ const App = () => (
             <Route path="/universities/:id/programs/:programKey" element={<ProgramDetail />} />
             <Route path="/universities/:id/programs/:programKey/batches/:batchId" element={<BatchDetail />} />
             <Route path="/universities/:id/programs/:programKey/batches/:batchId/sections/:sectionId" element={<SectionDetail />} />
-            <Route path="/programs" element={<PlaceholderPage title="Programs" />} />
-            <Route path="/teachers" element={<PlaceholderPage title="Teachers" />} />
-            <Route path="/teachers/:id" element={<PlaceholderPage title="Teacher Details" />} />
+            <Route path="/programs" element={<Programs />} />
+            <Route path="/programs/:programKey" element={<ProgramDetailStandalone />} />
             <Route path="/exams" element={<ExamsPage />} />
             <Route path="/assignments" element={<PlaceholderPage title="Assignments" />} />
             <Route path="/analytics" element={<PlaceholderPage title="Analytics & Reports" />} />
             <Route path="/compare" element={<PlaceholderPage title="Compare" />} />
             <Route path="/notifications" element={<PlaceholderPage title="Notifications" />} />
             <Route path="/settings" element={<PlaceholderPage title="Settings" />} />
-            <Route path="/audit-logs" element={<PlaceholderPage title="Audit Logs" />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
