@@ -14,6 +14,8 @@ import BatchDetail from "@/pages/admin/BatchDetail";
 import SectionDetail from "@/pages/admin/SectionDetail";
 import ExamsPage from "@/pages/admin/Exams";
 import UserManagement from "@/pages/admin/UserManagement";
+import Assignments from "@/pages/admin/Assignments";
+import Analytics from "@/pages/admin/Analytics";
 import PlaceholderPage from "@/pages/admin/PlaceholderPage";
 import NotFound from "./pages/NotFound";
 
@@ -37,8 +39,8 @@ const App = () => (
             <Route path="/programs" element={<Programs />} />
             <Route path="/programs/:programKey" element={<ProgramDetailStandalone />} />
             <Route path="/exams" element={<ExamsPage />} />
-            <Route path="/assignments" element={<PlaceholderPage title="Assignments" />} />
-            <Route path="/analytics" element={<PlaceholderPage title="Analytics & Reports" />} />
+            <Route path="/assignments" element={<Assignments />} />
+            <Route path="/analytics" element={<Analytics />} />
             <Route path="/compare" element={<PlaceholderPage title="Compare" />} />
             <Route path="/notifications" element={<PlaceholderPage title="Notifications" />} />
             <Route path="/settings" element={<PlaceholderPage title="Settings" />} />
