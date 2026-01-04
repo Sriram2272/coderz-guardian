@@ -51,6 +51,13 @@
 
     --radius: 1rem;
 
+    /* Vibrant chart colors */
+    --chart-1: 245 58% 51%;
+    --chart-2: 160 84% 39%;
+    --chart-3: 38 92% 50%;
+    --chart-4: 280 65% 55%;
+    --chart-5: 217 91% 60%;
+
     /* Premium gradients */
     --gradient-primary: linear-gradient(135deg, hsl(245 58% 51%) 0%, hsl(280 65% 50%) 100%);
     --gradient-accent: linear-gradient(135deg, hsl(245 58% 51%) 0%, hsl(280 65% 55%) 100%);
@@ -119,6 +126,13 @@
     --border: 228 40% 16%;
     --input: 228 40% 16%;
     --ring: 245 58% 60%;
+
+    /* Dark mode chart colors */
+    --chart-1: 245 58% 65%;
+    --chart-2: 160 84% 45%;
+    --chart-3: 38 92% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 217 91% 65%;
 
     /* Dark mode gradients */
     --gradient-primary: linear-gradient(135deg, hsl(245 58% 55%) 0%, hsl(280 65% 50%) 100%);

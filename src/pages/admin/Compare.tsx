@@ -1,10 +1,16 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { KPICard } from '@/components/admin/KPICard';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { 
   BarChart3, 
   Users, 
@@ -15,8 +21,12 @@ import {
   Layers,
   X,
   Search,
-  AlertCircle
+  AlertCircle,
+  Download,
+  FileText,
+  FileSpreadsheet
 } from 'lucide-react';
+import { toast } from 'sonner';
 import { universities, programs, batches, students } from '@/data/seedData';
 import {
   BarChart,
@@ -247,6 +257,123 @@ export default function Compare() {
     return config;
   }, [selectedEntities]);
 
+  // Export to CSV
+  const exportToCSV = useCallback(() => {
+    if (selectedEntities.length < 2) return;
+
+    const headers = ['Metric', ...selectedEntities.map(e => e.name)];
+    const rows = [
+      ['Average Score (%)', ...selectedEntities.map(e => e.data.avgScore.toString())],
+      ['Completion Rate (%)', ...selectedEntities.map(e => e.data.completion.toString())],
+      ['Attendance (%)', ...selectedEntities.map(e => e.data.attendance.toString())],
+    ];
+
+    if (comparisonType === 'students') {
+      rows.push(
+        ['Exam Average (%)', ...selectedEntities.map(e => (e.data.examAvg || 0).toString())],
+        ['Assignment Completion (%)', ...selectedEntities.map(e => (e.data.assignmentCompletion || 0).toString())]
+      );
+    } else {
+      rows.push(
+        [comparisonType === 'batches' ? 'Sections' : 'Students', 
+         ...selectedEntities.map(e => (e.data.studentsCount || 0).toString())]
+      );
+    }
+
+    const csvContent = [headers, ...rows].map(row => row.join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `comparison-${comparisonType}-${new Date().toISOString().split('T')[0]}.csv`;
+    link.click();
+    toast.success('CSV exported successfully');
+  }, [selectedEntities, comparisonType]);
+
+  // Export to PDF (generates a printable HTML that opens in new window)
+  const exportToPDF = useCallback(() => {
+    if (selectedEntities.length < 2) return;
+
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Comparison Report - ${comparisonType}</title>
+        <style>
+          body { font-family: 'Segoe UI', Arial, sans-serif; padding: 40px; color: #1a1a2e; }
+          h1 { color: #5B4CDB; margin-bottom: 8px; }
+          .subtitle { color: #666; margin-bottom: 32px; }
+          .date { color: #888; font-size: 14px; margin-bottom: 24px; }
+          table { width: 100%; border-collapse: collapse; margin-top: 24px; }
+          th, td { border: 1px solid #e2e8f0; padding: 12px 16px; text-align: left; }
+          th { background: linear-gradient(135deg, #5B4CDB, #8B5CF6); color: white; }
+          tr:nth-child(even) { background: #f8fafc; }
+          .metric { font-weight: 500; color: #374151; }
+          .value { font-weight: 600; color: #1a1a2e; }
+          .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #e2e8f0; color: #888; font-size: 12px; }
+        </style>
+      </head>
+      <body>
+        <h1>Performance Comparison Report</h1>
+        <p class="subtitle">Comparing ${selectedEntities.length} ${comparisonType}</p>
+        <p class="date">Generated on ${new Date().toLocaleDateString('en-US', { 
+          weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+        })}</p>
+        
+        <table>
+          <thead>
+            <tr>
+              <th>Metric</th>
+              ${selectedEntities.map(e => `<th>${e.name}</th>`).join('')}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="metric">Average Score</td>
+              ${selectedEntities.map(e => `<td class="value">${e.data.avgScore}%</td>`).join('')}
+            </tr>
+            <tr>
+              <td class="metric">Completion Rate</td>
+              ${selectedEntities.map(e => `<td class="value">${e.data.completion}%</td>`).join('')}
+            </tr>
+            <tr>
+              <td class="metric">Attendance</td>
+              ${selectedEntities.map(e => `<td class="value">${e.data.attendance}%</td>`).join('')}
+            </tr>
+            ${comparisonType === 'students' ? `
+              <tr>
+                <td class="metric">Exam Average</td>
+                ${selectedEntities.map(e => `<td class="value">${e.data.examAvg || '-'}%</td>`).join('')}
+              </tr>
+              <tr>
+                <td class="metric">Assignment Completion</td>
+                ${selectedEntities.map(e => `<td class="value">${e.data.assignmentCompletion || '-'}%</td>`).join('')}
+              </tr>
+            ` : `
+              <tr>
+                <td class="metric">${comparisonType === 'batches' ? 'Sections' : 'Students'}</td>
+                ${selectedEntities.map(e => `<td class="value">${(e.data.studentsCount || 0).toLocaleString()}</td>`).join('')}
+              </tr>
+            `}
+          </tbody>
+        </table>
+        
+        <div class="footer">
+          <p>This report was generated from the Admin Console comparison tool.</p>
+        </div>
+        
+        <script>window.onload = function() { window.print(); }</script>
+      </body>
+      </html>
+    `;
+
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      printWindow.document.write(htmlContent);
+      printWindow.document.close();
+      toast.success('PDF report opened - use Print to save as PDF');
+    }
+  }, [selectedEntities, comparisonType]);
+
   const getTypeIcon = (type: ComparisonType) => {
     switch (type) {
       case 'universities': return Building2;
@@ -261,9 +388,31 @@ export default function Compare() {
   return (
     <div className="space-y-6 animate-fade-up">
       {/* Header */}
-      <div>
-        <h1 className="text-2xl font-display font-bold text-foreground">Compare Performance</h1>
-        <p className="text-muted-foreground mt-1">Select entities to compare performance metrics side by side</p>
+      <div className="flex items-start justify-between">
+        <div>
+          <h1 className="text-2xl font-display font-bold text-foreground">Compare Performance</h1>
+          <p className="text-muted-foreground mt-1">Select entities to compare performance metrics side by side</p>
+        </div>
+        {selectedIds.length >= 2 && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="gap-2">
+                <Download className="w-4 h-4" />
+                Export
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={exportToCSV} className="gap-2 cursor-pointer">
+                <FileSpreadsheet className="w-4 h-4" />
+                Export as CSV
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={exportToPDF} className="gap-2 cursor-pointer">
+                <FileText className="w-4 h-4" />
+                Export as PDF
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </div>
 
       {/* Comparison Type Tabs */}
