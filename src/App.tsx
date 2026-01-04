@@ -11,6 +11,7 @@ import ProgramDetail from "@/pages/admin/ProgramDetail";
 import BatchDetail from "@/pages/admin/BatchDetail";
 import SectionDetail from "@/pages/admin/SectionDetail";
 import ExamsPage from "@/pages/admin/Exams";
+import UserManagement from "@/pages/admin/UserManagement";
 import PlaceholderPage from "@/pages/admin/PlaceholderPage";
 import NotFound from "./pages/NotFound";
 
@@ -25,14 +26,13 @@ const App = () => (
         <Routes>
           <Route element={<AdminLayout />}>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/users" element={<UserManagement />} />
             <Route path="/universities" element={<Universities />} />
             <Route path="/universities/:id" element={<UniversityDetail />} />
             <Route path="/universities/:id/programs/:programKey" element={<ProgramDetail />} />
             <Route path="/universities/:id/programs/:programKey/batches/:batchId" element={<BatchDetail />} />
             <Route path="/universities/:id/programs/:programKey/batches/:batchId/sections/:sectionId" element={<SectionDetail />} />
             <Route path="/programs" element={<PlaceholderPage title="Programs" />} />
-            <Route path="/students" element={<PlaceholderPage title="Students" />} />
-            <Route path="/students/:id" element={<PlaceholderPage title="Student Details" />} />
             <Route path="/teachers" element={<PlaceholderPage title="Teachers" />} />
             <Route path="/teachers/:id" element={<PlaceholderPage title="Teacher Details" />} />
             <Route path="/exams" element={<ExamsPage />} />
