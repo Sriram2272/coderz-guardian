@@ -32,16 +32,12 @@ const navItems = [
   { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
   { icon: Building2, label: 'Organizations', path: '/organizations' },
   { icon: GraduationCap, label: 'Programs', path: '/programs' },
-  { icon: Layers, label: 'Batches', path: '/batches' },
-  { icon: BookOpen, label: 'Sections', path: '/sections' },
   { icon: Users, label: 'Students', path: '/students' },
   { icon: UserCheck, label: 'Teachers', path: '/teachers' },
   { icon: ClipboardCheck, label: 'Exams', path: '/exams' },
   { icon: FileText, label: 'Assignments', path: '/assignments' },
   { icon: BarChart3, label: 'Analytics & Reports', path: '/analytics' },
   { icon: GitCompare, label: 'Compare', path: '/compare' },
-  { icon: Bell, label: 'Notifications', path: '/notifications' },
-  { icon: Settings, label: 'Settings', path: '/settings' },
   { icon: FileSearch, label: 'Audit Logs', path: '/audit-logs' },
 ];
 
