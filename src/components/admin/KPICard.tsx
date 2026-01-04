@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils';
 import { LucideIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface KPICardProps {
   icon: LucideIcon;
@@ -13,6 +14,7 @@ interface KPICardProps {
   };
   className?: string;
   delay?: number;
+  href?: string;
 }
 
 export function KPICard({ 
@@ -23,13 +25,11 @@ export function KPICard({
   value, 
   trend,
   className,
-  delay = 0
+  delay = 0,
+  href
 }: KPICardProps) {
-  return (
-    <div 
-      className={cn("kpi-card animate-fade-up opacity-0", className)}
-      style={{ animationDelay: `${delay * 0.08}s` }}
-    >
+  const content = (
+    <>
       <div className="flex items-start justify-between">
         <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center", iconBgColor)}>
           <Icon className={cn("w-6 h-6", iconColor)} />
@@ -47,6 +47,27 @@ export function KPICard({
         <p className="text-sm text-muted-foreground">{label}</p>
         <p className="text-3xl font-display font-bold text-foreground mt-1">{value}</p>
       </div>
+    </>
+  );
+
+  if (href) {
+    return (
+      <Link 
+        to={href}
+        className={cn("kpi-card animate-fade-up opacity-0 hover:border-primary/30 cursor-pointer transition-all", className)}
+        style={{ animationDelay: `${delay * 0.08}s` }}
+      >
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <div 
+      className={cn("kpi-card animate-fade-up opacity-0", className)}
+      style={{ animationDelay: `${delay * 0.08}s` }}
+    >
+      {content}
     </div>
   );
 }

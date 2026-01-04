@@ -3,7 +3,7 @@ import {
   Building2, 
   Users, 
   ClipboardCheck, 
-  TrendingUp,
+  GraduationCap,
   Eye,
   Plus,
   UserPlus,
@@ -16,7 +16,6 @@ import { universities, getPendingExams } from '@/data/seedData';
 
 export default function Dashboard() {
   const totalStudents = universities.reduce((sum, u) => sum + u.studentsCount, 0);
-  const avgScore = Math.round(universities.reduce((sum, u) => sum + u.avgScore, 0) / universities.length);
   const pendingExams = getPendingExams();
 
   return (
@@ -69,8 +68,15 @@ export default function Dashboard() {
           iconColor="text-success"
           label="Total Students"
           value={totalStudents.toLocaleString()}
-          trend={{ value: '12% this week', positive: true }}
           delay={3}
+        />
+        <KPICard
+          icon={GraduationCap}
+          iconBgColor="bg-primary/10"
+          iconColor="text-primary"
+          label="Trainers"
+          value={100}
+          delay={4}
         />
         <KPICard
           icon={ClipboardCheck}
@@ -78,15 +84,7 @@ export default function Dashboard() {
           iconColor="text-warning"
           label="Pending Exam Approvals"
           value={pendingExams.length}
-          delay={4}
-        />
-        <KPICard
-          icon={TrendingUp}
-          iconBgColor="bg-primary/10"
-          iconColor="text-primary"
-          label="Platform Avg Score"
-          value={`${avgScore}%`}
-          trend={{ value: '5% this month', positive: true }}
+          href="/exams"
           delay={5}
         />
       </div>
