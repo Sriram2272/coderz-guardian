@@ -31,7 +31,12 @@ interface SearchResult {
   path: string;
 }
 
-export function AdminTopBar() {
+interface AdminTopBarProps {
+  title?: string;
+  subtitle?: string;
+}
+
+export function AdminTopBar({ title = "Dashboard", subtitle = "Welcome back, Admin! Here's your platform overview." }: AdminTopBarProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [showSearch, setShowSearch] = useState(false);
@@ -155,49 +160,55 @@ export function AdminTopBar() {
 
   return (
     <header className="h-16 bg-card border-b border-border flex items-center justify-between px-6">
-      {/* Search */}
-      <div ref={searchRef} className="relative w-full max-w-md">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-        <Input
-          placeholder="Search universities, programs, batches, sections, students…"
-          className="pl-10 bg-secondary border-0 focus-visible:ring-1 focus-visible:ring-primary"
-          value={searchQuery}
-          onChange={(e) => handleSearch(e.target.value)}
-          onFocus={() => searchQuery.length >= 2 && setShowSearch(true)}
-        />
-        
-        {/* Search Results Dropdown */}
-        {showSearch && searchResults.length > 0 && (
-          <div className="absolute top-full left-0 right-0 mt-2 bg-card rounded-xl border border-border shadow-elevated overflow-hidden z-50">
-            {searchResults.map((result) => {
-              const Icon = getTypeIcon(result.type);
-              return (
-                <Link
-                  key={`${result.type}-${result.id}`}
-                  to={result.path}
-                  className="flex items-center gap-3 px-4 py-3 hover:bg-secondary transition-colors"
-                  onClick={() => {
-                    setShowSearch(false);
-                    setSearchQuery('');
-                  }}
-                >
-                  <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <Icon className="w-4 h-4 text-primary" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-foreground truncate">{result.name}</p>
-                    <p className="text-xs text-muted-foreground truncate">{result.meta}</p>
-                  </div>
-                  <Badge variant="secondary" className="text-xs capitalize">{result.type}</Badge>
-                </Link>
-              );
-            })}
-          </div>
-        )}
+      {/* Left: Page Title + Subtitle */}
+      <div className="flex-1 min-w-0">
+        <h1 className="text-xl font-display font-bold text-foreground truncate">{title}</h1>
+        <p className="text-sm text-muted-foreground truncate">{subtitle}</p>
       </div>
 
-      {/* Right side icons */}
-      <div className="flex items-center gap-2">
+      {/* Right: Search + Icons */}
+      <div className="flex items-center gap-3 ml-4">
+        {/* Search */}
+        <div ref={searchRef} className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Input
+            placeholder="Search..."
+            className="pl-10 w-64 bg-secondary border-0 focus-visible:ring-1 focus-visible:ring-primary"
+            value={searchQuery}
+            onChange={(e) => handleSearch(e.target.value)}
+            onFocus={() => searchQuery.length >= 2 && setShowSearch(true)}
+          />
+          
+          {/* Search Results Dropdown */}
+          {showSearch && searchResults.length > 0 && (
+            <div className="absolute top-full right-0 mt-2 w-80 bg-card rounded-xl border border-border shadow-elevated overflow-hidden z-50">
+              {searchResults.map((result) => {
+                const Icon = getTypeIcon(result.type);
+                return (
+                  <Link
+                    key={`${result.type}-${result.id}`}
+                    to={result.path}
+                    className="flex items-center gap-3 px-4 py-3 hover:bg-secondary transition-colors"
+                    onClick={() => {
+                      setShowSearch(false);
+                      setSearchQuery('');
+                    }}
+                  >
+                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <Icon className="w-4 h-4 text-primary" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-foreground truncate">{result.name}</p>
+                      <p className="text-xs text-muted-foreground truncate">{result.meta}</p>
+                    </div>
+                    <Badge variant="secondary" className="text-xs capitalize">{result.type}</Badge>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
         {/* Theme Toggle */}
         <Button variant="ghost" size="icon" className="rounded-full">
           <Moon className="w-5 h-5 text-muted-foreground" />

@@ -4,7 +4,6 @@ import {
   Users, 
   ClipboardCheck, 
   TrendingUp,
-  Calendar,
   Eye,
   Plus,
   UserPlus,
@@ -15,14 +14,13 @@ import { KPICard } from '@/components/admin/KPICard';
 import { ProgressTracker } from '@/components/admin/ProgressTracker';
 import { ActivityHeatmap } from '@/components/admin/ActivityHeatmap';
 import { TopPerformersList } from '@/components/admin/TopPerformersList';
+import { MonthlyScoreChart } from '@/components/admin/MonthlyScoreChart';
 import { 
   organizations, 
   programs, 
-  students, 
   getTopPerformers, 
   getNeedsSupport,
   getPendingExams,
-  notifications
 } from '@/data/seedData';
 
 export default function Dashboard() {
@@ -35,7 +33,7 @@ export default function Dashboard() {
   const topPerformers = getTopPerformers(3);
   const needsSupport = getNeedsSupport(3);
 
-  const programProgress = programs.slice(0, 4).map(p => ({
+  const programProgress = programs.slice(0, 3).map(p => ({
     id: p.id,
     code: p.name.slice(0, 2).toUpperCase(),
     label: p.name,
@@ -51,12 +49,6 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6">
-      {/* Page Header */}
-      <div className="animate-fade-up opacity-0">
-        <h1 className="text-2xl font-display font-bold text-foreground">Dashboard</h1>
-        <p className="text-muted-foreground">Welcome back, Admin! Here's your platform overview.</p>
-      </div>
-
       {/* Hero Banner */}
       <div className="hero-banner animate-fade-up opacity-0 stagger-1">
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
@@ -129,25 +121,24 @@ export default function Dashboard() {
         />
       </div>
 
-      {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column - Progress & Activity */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Program Progress */}
-          <div className="card-elevated p-6 animate-fade-up opacity-0 stagger-2">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h3 className="font-semibold text-foreground">Program Progress Tracker</h3>
-                <p className="text-sm text-muted-foreground">Completion rates across programs</p>
-              </div>
-              <div className="flex items-center gap-2 text-success">
-                <Flame className="w-4 h-4" />
-                <span className="text-sm font-medium">12 day streak</span>
-              </div>
+      {/* 3-Column Progress Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        {/* Left: Program Progress Tracker */}
+        <div className="card-elevated p-6 animate-fade-up opacity-0 stagger-2">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h3 className="font-semibold text-foreground">Program Progress Tracker</h3>
+              <p className="text-sm text-muted-foreground">Completion rates</p>
             </div>
-            <ProgressTracker items={programProgress} />
-            
-            <div className="mt-4 p-4 bg-secondary/50 rounded-xl flex items-center justify-between">
+            <div className="flex items-center gap-2 text-success">
+              <Flame className="w-4 h-4" />
+              <span className="text-sm font-medium">12 day streak</span>
+            </div>
+          </div>
+          <ProgressTracker items={programProgress} />
+          
+          <div className="mt-4 pt-4 border-t border-border">
+            <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
                   <TrendingUp className="w-5 h-5 text-primary" />
@@ -159,11 +150,28 @@ export default function Dashboard() {
               </div>
               <div className="text-right">
                 <p className="text-2xl font-display font-bold text-success">{avgCompletion}%</p>
-                <p className="text-xs text-muted-foreground">Completed</p>
               </div>
             </div>
+            <Link to="/programs" className="block mt-3 text-xs text-primary hover:underline text-center">
+              View all programs
+            </Link>
           </div>
+        </div>
 
+        {/* Middle: Monthly Score Chart */}
+        <MonthlyScoreChart />
+
+        {/* Right: Monthly Activity Heatmap */}
+        <div className="card-elevated p-6 animate-fade-up opacity-0 stagger-3">
+          <h3 className="font-semibold text-foreground mb-4">Monthly Activity</h3>
+          <ActivityHeatmap reviews={pendingExams.length + 15} uploads={totalTeachers} />
+        </div>
+      </div>
+
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left Column - Activity & Orgs */}
+        <div className="lg:col-span-2 space-y-6">
           {/* Recent Activity */}
           <div className="card-elevated p-6 animate-fade-up opacity-0 stagger-3">
             <div className="flex items-center justify-between mb-4">
@@ -225,12 +233,6 @@ export default function Dashboard() {
 
         {/* Right Column */}
         <div className="space-y-6">
-          {/* Monthly Activity */}
-          <div className="card-elevated p-6 animate-fade-up opacity-0 stagger-2">
-            <h3 className="font-semibold text-foreground mb-4">Monthly Activity</h3>
-            <ActivityHeatmap reviews={pendingExams.length + 15} uploads={totalTeachers} />
-          </div>
-
           {/* Top Performers */}
           <TopPerformersList
             title="Top Performers"
