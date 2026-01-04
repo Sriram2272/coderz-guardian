@@ -289,9 +289,9 @@
     color: hsl(var(--sidebar-primary-foreground));
   }
 
-  /* KPI Card */
+  /* KPI Card - Compact */
   .kpi-card {
-    @apply bg-card rounded-2xl border border-border/50 p-6;
+    @apply bg-card rounded-xl border border-border/50 p-4;
     box-shadow: var(--shadow-card);
     transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   }

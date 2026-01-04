@@ -31,8 +31,8 @@ export function KPICard({
   const content = (
     <>
       <div className="flex items-start justify-between">
-        <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center", iconBgColor)}>
-          <Icon className={cn("w-6 h-6", iconColor)} />
+        <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center", iconBgColor)}>
+          <Icon className={cn("w-5 h-5", iconColor)} />
         </div>
         {trend && (
           <span className={cn(
@@ -43,9 +43,9 @@ export function KPICard({
           </span>
         )}
       </div>
-      <div className="mt-4">
-        <p className="text-sm text-muted-foreground">{label}</p>
-        <p className="text-3xl font-display font-bold text-foreground mt-1">{value}</p>
+      <div className="mt-3">
+        <p className="text-xs text-muted-foreground">{label}</p>
+        <p className="text-2xl font-display font-bold text-foreground mt-0.5">{value}</p>
       </div>
     </>
   );
