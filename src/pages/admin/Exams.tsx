@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Search, Filter, Eye, Check, X, Clock } from 'lucide-react';
+import { Search, Eye, Check, X, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { exams, getExamsByStatus } from '@/data/seedData';
-import { cn } from '@/lib/utils';
+import { exams } from '@/data/seedData';
 
 export default function ExamsPage() {
   const [searchQuery, setSearchQuery] = useState('');
+  
+  const getExamsByStatus = (status: string) => exams.filter(e => e.status === status);
   
   const pendingExams = getExamsByStatus('PendingApproval');
   const approvedExams = getExamsByStatus('Approved');
@@ -17,12 +17,12 @@ export default function ExamsPage() {
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'PendingApproval': return <Badge className="badge-warning">Pending Approval</Badge>;
-      case 'Approved': return <Badge className="badge-success">Approved</Badge>;
-      case 'Rejected': return <Badge className="badge-destructive">Rejected</Badge>;
-      case 'Published': return <Badge className="badge-info">Published</Badge>;
-      case 'Completed': return <Badge className="badge-muted">Completed</Badge>;
-      default: return <Badge className="badge-muted">{status}</Badge>;
+      case 'PendingApproval': return <Badge className="bg-warning/10 text-warning">Pending Approval</Badge>;
+      case 'Approved': return <Badge className="bg-success/10 text-success">Approved</Badge>;
+      case 'Rejected': return <Badge className="bg-destructive/10 text-destructive">Rejected</Badge>;
+      case 'Published': return <Badge className="bg-info/10 text-info">Published</Badge>;
+      case 'Completed': return <Badge variant="secondary">Completed</Badge>;
+      default: return <Badge variant="secondary">{status}</Badge>;
     }
   };
 
@@ -104,17 +104,23 @@ export default function ExamsPage() {
 
         <TabsContent value="pending" className="mt-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            {pendingExams.map(exam => <ExamCard key={exam.id} exam={exam} />)}
+            {pendingExams.length === 0 ? (
+              <p className="col-span-2 text-center text-muted-foreground py-8">No pending exams</p>
+            ) : pendingExams.map(exam => <ExamCard key={exam.id} exam={exam} />)}
           </div>
         </TabsContent>
         <TabsContent value="approved" className="mt-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            {approvedExams.map(exam => <ExamCard key={exam.id} exam={exam} />)}
+            {approvedExams.length === 0 ? (
+              <p className="col-span-2 text-center text-muted-foreground py-8">No approved exams</p>
+            ) : approvedExams.map(exam => <ExamCard key={exam.id} exam={exam} />)}
           </div>
         </TabsContent>
         <TabsContent value="rejected" className="mt-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            {rejectedExams.map(exam => <ExamCard key={exam.id} exam={exam} />)}
+            {rejectedExams.length === 0 ? (
+              <p className="col-span-2 text-center text-muted-foreground py-8">No rejected exams</p>
+            ) : rejectedExams.map(exam => <ExamCard key={exam.id} exam={exam} />)}
           </div>
         </TabsContent>
         <TabsContent value="all" className="mt-6">

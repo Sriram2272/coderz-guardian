@@ -4,18 +4,15 @@ import {
   Building2, 
   GraduationCap, 
   Users, 
-  BookOpen, 
   ClipboardCheck, 
   FileText, 
   BarChart3, 
   GitCompare, 
-  Bell, 
-  Settings, 
   FileSearch,
   ChevronLeft,
   LogOut,
   User,
-  Layers,
+  Settings,
   UserCheck
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -30,7 +27,7 @@ import {
 
 const navItems = [
   { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
-  { icon: Building2, label: 'Organizations', path: '/organizations' },
+  { icon: Building2, label: 'Universities', path: '/universities' },
   { icon: GraduationCap, label: 'Programs', path: '/programs' },
   { icon: Users, label: 'Students', path: '/students' },
   { icon: UserCheck, label: 'Teachers', path: '/teachers' },

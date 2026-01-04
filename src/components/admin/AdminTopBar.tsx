@@ -13,7 +13,7 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { 
   notifications as allNotifications, 
-  organizations, 
+  universities, 
   programs, 
   sections, 
   students, 
@@ -24,7 +24,7 @@ import { Link } from 'react-router-dom';
 import { Building2, GraduationCap, BookOpen, Users, UserCheck, ClipboardCheck } from 'lucide-react';
 
 interface SearchResult {
-  type: 'organization' | 'program' | 'section' | 'student' | 'teacher' | 'exam';
+  type: 'university' | 'program' | 'section' | 'student' | 'teacher' | 'exam';
   id: string;
   name: string;
   meta: string;
@@ -70,14 +70,14 @@ export function AdminTopBar({ title = "Dashboard", subtitle = "Welcome back, Adm
     const results: SearchResult[] = [];
     const lowerQuery = query.toLowerCase();
 
-    // Search organizations
-    organizations.filter(o => o.name.toLowerCase().includes(lowerQuery) || o.code.toLowerCase().includes(lowerQuery))
-      .forEach(o => results.push({
-        type: 'organization',
-        id: o.id,
-        name: o.name,
-        meta: `${o.studentsCount} students • ${o.programsCount} programs`,
-        path: `/organizations/${o.id}`
+    // Search universities
+    universities.filter(u => u.name.toLowerCase().includes(lowerQuery) || u.code.toLowerCase().includes(lowerQuery))
+      .forEach(u => results.push({
+        type: 'university',
+        id: u.id,
+        name: u.name,
+        meta: `${u.studentsCount.toLocaleString()} students`,
+        path: `/universities/${u.id}`
       }));
 
     // Search programs
@@ -86,8 +86,8 @@ export function AdminTopBar({ title = "Dashboard", subtitle = "Welcome back, Adm
         type: 'program',
         id: p.id,
         name: p.name,
-        meta: `${p.studentsCount} students • ${p.batchesCount} batches`,
-        path: `/programs/${p.id}`
+        meta: `${p.studentsCount.toLocaleString()} students • ${p.batchesCount} batches`,
+        path: `/universities/${p.universityId}/programs/${p.key}`
       }));
 
     // Search sections
@@ -96,8 +96,8 @@ export function AdminTopBar({ title = "Dashboard", subtitle = "Welcome back, Adm
         type: 'section',
         id: s.id,
         name: s.code,
-        meta: `${s.studentsCount} students • Batch ${s.batchId}`,
-        path: `/sections/${s.id}`
+        meta: `${s.studentsCount} students`,
+        path: `/universities/${s.universityId}/programs/${s.programKey}/batches/${s.batchId}/sections/${s.id}`
       }));
 
     // Search students
@@ -106,7 +106,7 @@ export function AdminTopBar({ title = "Dashboard", subtitle = "Welcome back, Adm
         type: 'student',
         id: s.id,
         name: s.name,
-        meta: `${s.rollNo} • Section ${s.sectionId}`,
+        meta: `${s.rollNo}`,
         path: `/students/${s.id}`
       }));
 
@@ -126,7 +126,7 @@ export function AdminTopBar({ title = "Dashboard", subtitle = "Welcome back, Adm
 
   const getTypeIcon = (type: SearchResult['type']) => {
     switch (type) {
-      case 'organization': return Building2;
+      case 'university': return Building2;
       case 'program': return GraduationCap;
       case 'section': return BookOpen;
       case 'student': return Users;
@@ -139,7 +139,7 @@ export function AdminTopBar({ title = "Dashboard", subtitle = "Welcome back, Adm
     switch (type) {
       case 'exam_approval': return ClipboardCheck;
       case 'student_alert': return Users;
-      case 'organization_created': return Building2;
+      case 'university_created': return Building2;
       case 'teacher_created': return UserCheck;
       default: return Bell;
     }
@@ -293,14 +293,14 @@ export function AdminTopBar({ title = "Dashboard", subtitle = "Welcome back, Adm
                         "w-9 h-9 rounded-lg flex items-center justify-center shrink-0",
                         notif.type === 'exam_approval' && "bg-warning/10",
                         notif.type === 'student_alert' && "bg-destructive/10",
-                        notif.type === 'organization_created' && "bg-success/10",
+                        notif.type === 'university_created' && "bg-success/10",
                         notif.type === 'system' && "bg-info/10"
                       )}>
                         <Icon className={cn(
                           "w-4 h-4",
                           notif.type === 'exam_approval' && "text-warning",
                           notif.type === 'student_alert' && "text-destructive",
-                          notif.type === 'organization_created' && "text-success",
+                          notif.type === 'university_created' && "text-success",
                           notif.type === 'system' && "text-info"
                         )} />
                       </div>
