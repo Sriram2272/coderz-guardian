@@ -30,12 +30,10 @@ const navItems = [
   { icon: Users, label: 'User Management', path: '/users' },
   { icon: Building2, label: 'Universities', path: '/universities' },
   { icon: GraduationCap, label: 'Programs', path: '/programs' },
-  { icon: UserCheck, label: 'Teachers', path: '/teachers' },
   { icon: ClipboardCheck, label: 'Exams', path: '/exams' },
   { icon: FileText, label: 'Assignments', path: '/assignments' },
   { icon: BarChart3, label: 'Analytics & Reports', path: '/analytics' },
   { icon: GitCompare, label: 'Compare', path: '/compare' },
-  { icon: FileSearch, label: 'Audit Logs', path: '/audit-logs' },
 ];
 
 export function AdminSidebar() {
