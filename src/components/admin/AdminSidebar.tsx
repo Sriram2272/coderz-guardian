@@ -27,9 +27,9 @@ import {
 
 const navItems = [
   { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
+  { icon: Users, label: 'User Management', path: '/users' },
   { icon: Building2, label: 'Universities', path: '/universities' },
   { icon: GraduationCap, label: 'Programs', path: '/programs' },
-  { icon: Users, label: 'Students', path: '/students' },
   { icon: UserCheck, label: 'Teachers', path: '/teachers' },
   { icon: ClipboardCheck, label: 'Exams', path: '/exams' },
   { icon: FileText, label: 'Assignments', path: '/assignments' },
