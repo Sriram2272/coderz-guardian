@@ -39,25 +39,6 @@ export default function UniversityDetail() {
           <span className="text-foreground font-medium">{university.name}</span>
         </nav>
 
-        {/* Header with Logo */}
-        <div className="flex items-center gap-4">
-          <Link to="/universities">
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <ArrowLeft className="w-5 h-5" />
-            </Button>
-          </Link>
-          <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center">
-            <span className="text-primary font-bold text-xl">{university.code.slice(0, 2)}</span>
-          </div>
-          <div>
-            <h1 className="text-2xl font-display font-bold text-foreground">{university.name}</h1>
-            <div className="flex items-center gap-2 mt-1">
-              <Badge variant="secondary">{university.code}</Badge>
-              <Badge className="bg-success/10 text-success border-0">Active</Badge>
-            </div>
-          </div>
-        </div>
-
         {/* KPI Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="bg-card rounded-xl border border-border p-5">
