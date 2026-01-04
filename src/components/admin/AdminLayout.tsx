@@ -7,8 +7,9 @@ const pagesWithCustomTopBar = ['/universities'];
 
 export function AdminLayout() {
   const location = useLocation();
+  // Check if current path starts with any custom top bar path
   const hasCustomTopBar = pagesWithCustomTopBar.some(path => 
-    location.pathname === path
+    location.pathname === path || location.pathname.startsWith(path + '/')
   );
 
   return (
