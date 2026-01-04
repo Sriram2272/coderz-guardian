@@ -2,11 +2,13 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AdminLayout } from "@/components/admin/AdminLayout";
 import Dashboard from "@/pages/admin/Dashboard";
-import OrganizationsPage from "@/pages/admin/Organizations";
-import OrganizationDetail from "@/pages/admin/OrganizationDetail";
+import UniversityDetail from "@/pages/admin/UniversityDetail";
+import ProgramDetail from "@/pages/admin/ProgramDetail";
+import BatchDetail from "@/pages/admin/BatchDetail";
+import SectionDetail from "@/pages/admin/SectionDetail";
 import ExamsPage from "@/pages/admin/Exams";
 import PlaceholderPage from "@/pages/admin/PlaceholderPage";
 import NotFound from "./pages/NotFound";
@@ -22,12 +24,12 @@ const App = () => (
         <Routes>
           <Route element={<AdminLayout />}>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/organizations" element={<OrganizationsPage />} />
-            <Route path="/organizations/:id" element={<OrganizationDetail />} />
+            <Route path="/universities" element={<Navigate to="/" replace />} />
+            <Route path="/universities/:id" element={<UniversityDetail />} />
+            <Route path="/universities/:id/programs/:programKey" element={<ProgramDetail />} />
+            <Route path="/universities/:id/programs/:programKey/batches/:batchId" element={<BatchDetail />} />
+            <Route path="/universities/:id/programs/:programKey/batches/:batchId/sections/:sectionId" element={<SectionDetail />} />
             <Route path="/programs" element={<PlaceholderPage title="Programs" />} />
-            <Route path="/programs/:id" element={<PlaceholderPage title="Program Details" />} />
-            <Route path="/batches" element={<PlaceholderPage title="Batches" />} />
-            <Route path="/sections" element={<PlaceholderPage title="Sections" />} />
             <Route path="/students" element={<PlaceholderPage title="Students" />} />
             <Route path="/students/:id" element={<PlaceholderPage title="Student Details" />} />
             <Route path="/teachers" element={<PlaceholderPage title="Teachers" />} />

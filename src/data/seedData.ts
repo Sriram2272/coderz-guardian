@@ -1,15 +1,12 @@
-// Seed data for Admin Console
+// Seed data for Admin Console - Universities Structure
 
-export interface Organization {
+export interface University {
   id: string;
   name: string;
   code: string;
   logo?: string;
   status: 'active' | 'inactive';
   createdAt: string;
-  programsCount: number;
-  batchesCount: number;
-  sectionsCount: number;
   studentsCount: number;
   teachersCount: number;
   avgScore: number;
@@ -19,8 +16,9 @@ export interface Organization {
 
 export interface Program {
   id: string;
-  organizationId: string;
+  universityId: string;
   name: string;
+  key: string;
   description: string;
   status: 'active' | 'inactive';
   batchesCount: number;
@@ -33,8 +31,8 @@ export interface Program {
 
 export interface Batch {
   id: string;
-  organizationId: string;
-  programId: string;
+  universityId: string;
+  programKey: string;
   name: string;
   startYear: number;
   endYear: number;
@@ -48,8 +46,8 @@ export interface Batch {
 
 export interface Section {
   id: string;
-  organizationId: string;
-  programId: string;
+  universityId: string;
+  programKey: string;
   batchId: string;
   code: string;
   displayName: string;
@@ -63,8 +61,8 @@ export interface Section {
 
 export interface Student {
   id: string;
-  organizationId: string;
-  programId: string;
+  universityId: string;
+  programKey: string;
   batchId: string;
   sectionId: string;
   name: string;
@@ -84,7 +82,7 @@ export interface Student {
 
 export interface Teacher {
   id: string;
-  organizationId: string;
+  universityId: string;
   programs: string[];
   sections: string[];
   name: string;
@@ -102,8 +100,8 @@ export interface Exam {
   id: string;
   createdByTeacherId: string;
   teacherName: string;
-  organizationId: string;
-  programId: string;
+  universityId: string;
+  programKey: string;
   batchId: string;
   sectionIds: string[];
   sectionNames: string[];
@@ -121,7 +119,7 @@ export interface Exam {
 
 export interface Notification {
   id: string;
-  type: 'exam_approval' | 'teacher_created' | 'organization_created' | 'student_alert' | 'system';
+  type: 'exam_approval' | 'teacher_created' | 'university_created' | 'student_alert' | 'system';
   title: string;
   message: string;
   entityType?: string;
@@ -141,402 +139,299 @@ export interface AuditLog {
   details: string;
 }
 
-// Organizations
-export const organizations: Organization[] = [
+// Universities
+export const universities: University[] = [
   {
-    id: 'org-1',
-    name: 'XYZ University',
-    code: 'XYZ',
+    id: 'lpu',
+    name: 'LPU',
+    code: 'LPU',
     status: 'active',
     createdAt: '2024-01-15',
-    programsCount: 3,
-    batchesCount: 6,
-    sectionsCount: 18,
-    studentsCount: 1450,
-    teachersCount: 45,
-    avgScore: 78,
-    completion: 72,
-    attendance: 85,
-  },
-  {
-    id: 'org-2',
-    name: 'ABC Institute of Technology',
-    code: 'AIT',
-    status: 'active',
-    createdAt: '2024-02-20',
-    programsCount: 2,
-    batchesCount: 4,
-    sectionsCount: 12,
-    studentsCount: 890,
-    teachersCount: 28,
-    avgScore: 82,
-    completion: 78,
-    attendance: 88,
-  },
-  {
-    id: 'org-3',
-    name: 'Global Tech Academy',
-    code: 'GTA',
-    status: 'active',
-    createdAt: '2024-03-10',
-    programsCount: 2,
-    batchesCount: 3,
-    sectionsCount: 9,
-    studentsCount: 620,
-    teachersCount: 19,
-    avgScore: 75,
-    completion: 68,
-    attendance: 82,
-  },
-];
-
-// Programs
-export const programs: Program[] = [
-  {
-    id: 'prog-1',
-    organizationId: 'org-1',
-    name: 'GenAI',
-    description: 'Generative AI and Machine Learning Program',
-    status: 'active',
-    batchesCount: 2,
-    studentsCount: 520,
+    studentsCount: 5200,
+    teachersCount: 156,
     avgScore: 79,
     completion: 74,
     attendance: 86,
+  },
+  {
+    id: 'bits',
+    name: 'BITS Pilani',
+    code: 'BITS',
+    status: 'active',
+    createdAt: '2024-02-20',
+    studentsCount: 3900,
+    teachersCount: 117,
+    avgScore: 83,
+    completion: 78,
+    attendance: 89,
+  },
+  {
+    id: 'srm',
+    name: 'SRM',
+    code: 'SRM',
+    status: 'active',
+    createdAt: '2024-03-10',
+    studentsCount: 3900,
+    teachersCount: 117,
+    avgScore: 76,
+    completion: 71,
+    attendance: 84,
+  },
+];
+
+// Programs for each university
+export const programs: Program[] = [
+  // LPU Programs
+  {
+    id: 'lpu-genai',
+    universityId: 'lpu',
+    name: 'GenAI',
+    key: 'genai',
+    description: 'Generative AI and Machine Learning Program',
+    status: 'active',
+    batchesCount: 3,
+    studentsCount: 1800,
+    avgScore: 80,
+    completion: 76,
+    attendance: 87,
     lastUpdated: '2024-12-28',
   },
   {
-    id: 'prog-2',
-    organizationId: 'org-1',
+    id: 'lpu-ds',
+    universityId: 'lpu',
     name: 'Data Science',
+    key: 'data-science',
     description: 'Advanced Data Science and Analytics',
     status: 'active',
-    batchesCount: 2,
-    studentsCount: 480,
-    avgScore: 77,
-    completion: 71,
-    attendance: 84,
+    batchesCount: 3,
+    studentsCount: 1700,
+    avgScore: 78,
+    completion: 73,
+    attendance: 85,
     lastUpdated: '2024-12-27',
   },
   {
-    id: 'prog-3',
-    organizationId: 'org-1',
-    name: 'PEP',
-    description: 'Professional Enhancement Program',
+    id: 'lpu-cloud',
+    universityId: 'lpu',
+    name: 'Cloud Computing',
+    key: 'cloud-computing',
+    description: 'Cloud Infrastructure and DevOps',
     status: 'active',
     batchesCount: 2,
-    studentsCount: 450,
-    avgScore: 78,
-    completion: 70,
-    attendance: 85,
+    studentsCount: 1700,
+    avgScore: 79,
+    completion: 73,
+    attendance: 86,
     lastUpdated: '2024-12-26',
   },
+  // BITS Programs
   {
-    id: 'prog-4',
-    organizationId: 'org-2',
+    id: 'bits-genai',
+    universityId: 'bits',
     name: 'GenAI',
+    key: 'genai',
+    description: 'Generative AI and Machine Learning Program',
+    status: 'active',
+    batchesCount: 3,
+    studentsCount: 1400,
+    avgScore: 84,
+    completion: 80,
+    attendance: 90,
+    lastUpdated: '2024-12-28',
+  },
+  {
+    id: 'bits-ds',
+    universityId: 'bits',
+    name: 'Data Science',
+    key: 'data-science',
+    description: 'Advanced Data Science and Analytics',
+    status: 'active',
+    batchesCount: 2,
+    studentsCount: 1300,
+    avgScore: 82,
+    completion: 77,
+    attendance: 88,
+    lastUpdated: '2024-12-27',
+  },
+  {
+    id: 'bits-cloud',
+    universityId: 'bits',
+    name: 'Cloud Computing',
+    key: 'cloud-computing',
+    description: 'Cloud Infrastructure and DevOps',
+    status: 'active',
+    batchesCount: 2,
+    studentsCount: 1200,
+    avgScore: 83,
+    completion: 77,
+    attendance: 89,
+    lastUpdated: '2024-12-26',
+  },
+  // SRM Programs
+  {
+    id: 'srm-genai',
+    universityId: 'srm',
+    name: 'GenAI',
+    key: 'genai',
     description: 'Generative AI and Machine Learning Program',
     status: 'active',
     batchesCount: 2,
-    studentsCount: 445,
-    avgScore: 83,
-    completion: 79,
-    attendance: 89,
+    studentsCount: 1400,
+    avgScore: 77,
+    completion: 72,
+    attendance: 85,
     lastUpdated: '2024-12-28',
   },
   {
-    id: 'prog-5',
-    organizationId: 'org-2',
+    id: 'srm-ds',
+    universityId: 'srm',
     name: 'Data Science',
+    key: 'data-science',
     description: 'Advanced Data Science and Analytics',
     status: 'active',
     batchesCount: 2,
-    studentsCount: 445,
-    avgScore: 81,
-    completion: 77,
-    attendance: 87,
+    studentsCount: 1300,
+    avgScore: 75,
+    completion: 70,
+    attendance: 83,
     lastUpdated: '2024-12-27',
+  },
+  {
+    id: 'srm-cloud',
+    universityId: 'srm',
+    name: 'Cloud Computing',
+    key: 'cloud-computing',
+    description: 'Cloud Infrastructure and DevOps',
+    status: 'active',
+    batchesCount: 2,
+    studentsCount: 1200,
+    avgScore: 76,
+    completion: 71,
+    attendance: 84,
+    lastUpdated: '2024-12-26',
   },
 ];
 
 // Batches
 export const batches: Batch[] = [
-  {
-    id: 'batch-1',
-    organizationId: 'org-1',
-    programId: 'prog-1',
-    name: '2024-2028',
-    startYear: 2024,
-    endYear: 2028,
-    status: 'active',
-    sectionsCount: 3,
-    studentsCount: 280,
-    avgScore: 80,
-    completion: 76,
-    attendance: 87,
-  },
-  {
-    id: 'batch-2',
-    organizationId: 'org-1',
-    programId: 'prog-1',
-    name: '2025-2029',
-    startYear: 2025,
-    endYear: 2029,
-    status: 'active',
-    sectionsCount: 3,
-    studentsCount: 240,
-    avgScore: 78,
-    completion: 72,
-    attendance: 85,
-  },
-  {
-    id: 'batch-3',
-    organizationId: 'org-1',
-    programId: 'prog-2',
-    name: '2024-2028',
-    startYear: 2024,
-    endYear: 2028,
-    status: 'active',
-    sectionsCount: 3,
-    studentsCount: 250,
-    avgScore: 77,
-    completion: 73,
-    attendance: 84,
-  },
+  // LPU GenAI Batches
+  { id: 'lpu-genai-2025', universityId: 'lpu', programKey: 'genai', name: '2025-2029', startYear: 2025, endYear: 2029, status: 'active', sectionsCount: 3, studentsCount: 650, avgScore: 81, completion: 78, attendance: 88 },
+  { id: 'lpu-genai-2024', universityId: 'lpu', programKey: 'genai', name: '2024-2028', startYear: 2024, endYear: 2028, status: 'active', sectionsCount: 3, studentsCount: 600, avgScore: 80, completion: 75, attendance: 87 },
+  { id: 'lpu-genai-2023', universityId: 'lpu', programKey: 'genai', name: '2023-2027', startYear: 2023, endYear: 2027, status: 'active', sectionsCount: 3, studentsCount: 550, avgScore: 79, completion: 74, attendance: 86 },
+  // LPU Data Science Batches
+  { id: 'lpu-ds-2025', universityId: 'lpu', programKey: 'data-science', name: '2025-2029', startYear: 2025, endYear: 2029, status: 'active', sectionsCount: 3, studentsCount: 600, avgScore: 79, completion: 74, attendance: 86 },
+  { id: 'lpu-ds-2024', universityId: 'lpu', programKey: 'data-science', name: '2024-2028', startYear: 2024, endYear: 2028, status: 'active', sectionsCount: 3, studentsCount: 580, avgScore: 78, completion: 73, attendance: 85 },
+  { id: 'lpu-ds-2023', universityId: 'lpu', programKey: 'data-science', name: '2023-2027', startYear: 2023, endYear: 2027, status: 'active', sectionsCount: 2, studentsCount: 520, avgScore: 77, completion: 72, attendance: 84 },
+  // LPU Cloud Batches
+  { id: 'lpu-cloud-2025', universityId: 'lpu', programKey: 'cloud-computing', name: '2025-2029', startYear: 2025, endYear: 2029, status: 'active', sectionsCount: 3, studentsCount: 900, avgScore: 80, completion: 74, attendance: 87 },
+  { id: 'lpu-cloud-2024', universityId: 'lpu', programKey: 'cloud-computing', name: '2024-2028', startYear: 2024, endYear: 2028, status: 'active', sectionsCount: 3, studentsCount: 800, avgScore: 78, completion: 72, attendance: 85 },
+  // BITS GenAI Batches
+  { id: 'bits-genai-2025', universityId: 'bits', programKey: 'genai', name: '2025-2029', startYear: 2025, endYear: 2029, status: 'active', sectionsCount: 3, studentsCount: 500, avgScore: 85, completion: 82, attendance: 91 },
+  { id: 'bits-genai-2024', universityId: 'bits', programKey: 'genai', name: '2024-2028', startYear: 2024, endYear: 2028, status: 'active', sectionsCount: 3, studentsCount: 480, avgScore: 84, completion: 79, attendance: 90 },
+  { id: 'bits-genai-2023', universityId: 'bits', programKey: 'genai', name: '2023-2027', startYear: 2023, endYear: 2027, status: 'active', sectionsCount: 2, studentsCount: 420, avgScore: 83, completion: 79, attendance: 89 },
+  // BITS Data Science Batches
+  { id: 'bits-ds-2025', universityId: 'bits', programKey: 'data-science', name: '2025-2029', startYear: 2025, endYear: 2029, status: 'active', sectionsCount: 3, studentsCount: 700, avgScore: 83, completion: 78, attendance: 89 },
+  { id: 'bits-ds-2024', universityId: 'bits', programKey: 'data-science', name: '2024-2028', startYear: 2024, endYear: 2028, status: 'active', sectionsCount: 2, studentsCount: 600, avgScore: 81, completion: 76, attendance: 87 },
+  // BITS Cloud Batches
+  { id: 'bits-cloud-2025', universityId: 'bits', programKey: 'cloud-computing', name: '2025-2029', startYear: 2025, endYear: 2029, status: 'active', sectionsCount: 3, studentsCount: 650, avgScore: 84, completion: 78, attendance: 90 },
+  { id: 'bits-cloud-2024', universityId: 'bits', programKey: 'cloud-computing', name: '2024-2028', startYear: 2024, endYear: 2028, status: 'active', sectionsCount: 2, studentsCount: 550, avgScore: 82, completion: 76, attendance: 88 },
+  // SRM GenAI Batches
+  { id: 'srm-genai-2025', universityId: 'srm', programKey: 'genai', name: '2025-2029', startYear: 2025, endYear: 2029, status: 'active', sectionsCount: 3, studentsCount: 750, avgScore: 78, completion: 73, attendance: 86 },
+  { id: 'srm-genai-2024', universityId: 'srm', programKey: 'genai', name: '2024-2028', startYear: 2024, endYear: 2028, status: 'active', sectionsCount: 3, studentsCount: 650, avgScore: 76, completion: 71, attendance: 84 },
+  // SRM Data Science Batches
+  { id: 'srm-ds-2025', universityId: 'srm', programKey: 'data-science', name: '2025-2029', startYear: 2025, endYear: 2029, status: 'active', sectionsCount: 3, studentsCount: 700, avgScore: 76, completion: 71, attendance: 84 },
+  { id: 'srm-ds-2024', universityId: 'srm', programKey: 'data-science', name: '2024-2028', startYear: 2024, endYear: 2028, status: 'active', sectionsCount: 2, studentsCount: 600, avgScore: 74, completion: 69, attendance: 82 },
+  // SRM Cloud Batches
+  { id: 'srm-cloud-2025', universityId: 'srm', programKey: 'cloud-computing', name: '2025-2029', startYear: 2025, endYear: 2029, status: 'active', sectionsCount: 3, studentsCount: 650, avgScore: 77, completion: 72, attendance: 85 },
+  { id: 'srm-cloud-2024', universityId: 'srm', programKey: 'cloud-computing', name: '2024-2028', startYear: 2024, endYear: 2028, status: 'active', sectionsCount: 2, studentsCount: 550, avgScore: 75, completion: 70, attendance: 83 },
 ];
 
 // Sections
 export const sections: Section[] = [
-  {
-    id: 'sec-1',
-    organizationId: 'org-1',
-    programId: 'prog-1',
-    batchId: 'batch-1',
-    code: 'K24BX',
-    displayName: 'Section K24BX',
-    status: 'active',
-    studentsCount: 95,
-    assignedTeacherIds: ['teacher-1'],
-    avgScore: 82,
-    completion: 78,
-    attendance: 89,
-  },
-  {
-    id: 'sec-2',
-    organizationId: 'org-1',
-    programId: 'prog-1',
-    batchId: 'batch-1',
-    code: 'P24KX',
-    displayName: 'Section P24KX',
-    status: 'active',
-    studentsCount: 92,
-    assignedTeacherIds: ['teacher-2'],
-    avgScore: 79,
-    completion: 75,
-    attendance: 86,
-  },
-  {
-    id: 'sec-3',
-    organizationId: 'org-1',
-    programId: 'prog-1',
-    batchId: 'batch-1',
-    code: 'G24KX',
-    displayName: 'Section G24KX',
-    status: 'active',
-    studentsCount: 93,
-    assignedTeacherIds: ['teacher-3'],
-    avgScore: 80,
-    completion: 74,
-    attendance: 85,
-  },
-  {
-    id: 'sec-4',
-    organizationId: 'org-1',
-    programId: 'prog-1',
-    batchId: 'batch-2',
-    code: 'K25BX',
-    displayName: 'Section K25BX',
-    status: 'active',
-    studentsCount: 80,
-    assignedTeacherIds: ['teacher-1'],
-    avgScore: 78,
-    completion: 72,
-    attendance: 85,
-  },
+  // LPU GenAI 2025-2029 Sections
+  { id: 'lpu-genai-2025-a', universityId: 'lpu', programKey: 'genai', batchId: 'lpu-genai-2025', code: 'Sec-A', displayName: 'Section A', status: 'active', studentsCount: 220, assignedTeacherIds: ['t1'], avgScore: 82, completion: 79, attendance: 89 },
+  { id: 'lpu-genai-2025-b', universityId: 'lpu', programKey: 'genai', batchId: 'lpu-genai-2025', code: 'Sec-B', displayName: 'Section B', status: 'active', studentsCount: 215, assignedTeacherIds: ['t2'], avgScore: 80, completion: 77, attendance: 87 },
+  { id: 'lpu-genai-2025-c', universityId: 'lpu', programKey: 'genai', batchId: 'lpu-genai-2025', code: 'Sec-C', displayName: 'Section C', status: 'active', studentsCount: 215, assignedTeacherIds: ['t3'], avgScore: 81, completion: 78, attendance: 88 },
+  // LPU GenAI 2024-2028 Sections
+  { id: 'lpu-genai-2024-a', universityId: 'lpu', programKey: 'genai', batchId: 'lpu-genai-2024', code: 'Sec-A', displayName: 'Section A', status: 'active', studentsCount: 200, assignedTeacherIds: ['t1'], avgScore: 81, completion: 76, attendance: 88 },
+  { id: 'lpu-genai-2024-b', universityId: 'lpu', programKey: 'genai', batchId: 'lpu-genai-2024', code: 'Sec-B', displayName: 'Section B', status: 'active', studentsCount: 200, assignedTeacherIds: ['t2'], avgScore: 79, completion: 74, attendance: 86 },
+  { id: 'lpu-genai-2024-c', universityId: 'lpu', programKey: 'genai', batchId: 'lpu-genai-2024', code: 'Sec-C', displayName: 'Section C', status: 'active', studentsCount: 200, assignedTeacherIds: ['t3'], avgScore: 80, completion: 75, attendance: 87 },
+  // BITS GenAI 2025-2029 Sections
+  { id: 'bits-genai-2025-a', universityId: 'bits', programKey: 'genai', batchId: 'bits-genai-2025', code: 'Sec-A', displayName: 'Section A', status: 'active', studentsCount: 170, assignedTeacherIds: ['t4'], avgScore: 86, completion: 83, attendance: 92 },
+  { id: 'bits-genai-2025-b', universityId: 'bits', programKey: 'genai', batchId: 'bits-genai-2025', code: 'Sec-B', displayName: 'Section B', status: 'active', studentsCount: 165, assignedTeacherIds: ['t5'], avgScore: 84, completion: 81, attendance: 90 },
+  { id: 'bits-genai-2025-c', universityId: 'bits', programKey: 'genai', batchId: 'bits-genai-2025', code: 'Sec-C', displayName: 'Section C', status: 'active', studentsCount: 165, assignedTeacherIds: ['t6'], avgScore: 85, completion: 82, attendance: 91 },
+  // SRM GenAI 2025-2029 Sections
+  { id: 'srm-genai-2025-a', universityId: 'srm', programKey: 'genai', batchId: 'srm-genai-2025', code: 'Sec-A', displayName: 'Section A', status: 'active', studentsCount: 250, assignedTeacherIds: ['t7'], avgScore: 79, completion: 74, attendance: 87 },
+  { id: 'srm-genai-2025-b', universityId: 'srm', programKey: 'genai', batchId: 'srm-genai-2025', code: 'Sec-B', displayName: 'Section B', status: 'active', studentsCount: 250, assignedTeacherIds: ['t8'], avgScore: 77, completion: 72, attendance: 85 },
+  { id: 'srm-genai-2025-c', universityId: 'srm', programKey: 'genai', batchId: 'srm-genai-2025', code: 'Sec-C', displayName: 'Section C', status: 'active', studentsCount: 250, assignedTeacherIds: ['t9'], avgScore: 78, completion: 73, attendance: 86 },
 ];
 
-// Students
-export const students: Student[] = [
-  {
-    id: 'student-1',
-    organizationId: 'org-1',
-    programId: 'prog-1',
-    batchId: 'batch-1',
-    sectionId: 'sec-1',
-    name: 'Arjun Patel',
-    email: 'arjun.patel@xyz.edu',
-    rollNo: 'K24BX001',
-    status: 'active',
-    joinedAt: '2024-08-15',
-    avgScore: 92,
-    completion: 95,
-    attendance: 98,
-    examAvg: 94,
-    assignmentCompletion: 100,
-    timeSpent: 145,
-    lastActivity: '2024-12-28',
-  },
-  {
-    id: 'student-2',
-    organizationId: 'org-1',
-    programId: 'prog-1',
-    batchId: 'batch-1',
-    sectionId: 'sec-1',
-    name: 'Priya Sharma',
-    email: 'priya.sharma@xyz.edu',
-    rollNo: 'K24BX002',
-    status: 'active',
-    joinedAt: '2024-08-15',
-    avgScore: 89,
-    completion: 92,
-    attendance: 96,
-    examAvg: 91,
-    assignmentCompletion: 95,
-    timeSpent: 132,
-    lastActivity: '2024-12-28',
-  },
-  {
-    id: 'student-3',
-    organizationId: 'org-1',
-    programId: 'prog-1',
-    batchId: 'batch-1',
-    sectionId: 'sec-1',
-    name: 'Rahul Kumar',
-    email: 'rahul.kumar@xyz.edu',
-    rollNo: 'K24BX003',
-    status: 'active',
-    joinedAt: '2024-08-15',
-    avgScore: 86,
-    completion: 88,
-    attendance: 94,
-    examAvg: 88,
-    assignmentCompletion: 90,
-    timeSpent: 118,
-    lastActivity: '2024-12-27',
-  },
-  {
-    id: 'student-4',
-    organizationId: 'org-1',
-    programId: 'prog-1',
-    batchId: 'batch-1',
-    sectionId: 'sec-1',
-    name: 'Neha Gupta',
-    email: 'neha.gupta@xyz.edu',
-    rollNo: 'K24BX004',
-    status: 'active',
-    joinedAt: '2024-08-15',
-    avgScore: 58,
-    completion: 45,
-    attendance: 62,
-    examAvg: 55,
-    assignmentCompletion: 40,
-    timeSpent: 42,
-    lastActivity: '2024-12-20',
-  },
-  {
-    id: 'student-5',
-    organizationId: 'org-1',
-    programId: 'prog-1',
-    batchId: 'batch-1',
-    sectionId: 'sec-1',
-    name: 'Amit Singh',
-    email: 'amit.singh@xyz.edu',
-    rollNo: 'K24BX005',
-    status: 'active',
-    joinedAt: '2024-08-15',
-    avgScore: 52,
-    completion: 38,
-    attendance: 55,
-    examAvg: 48,
-    assignmentCompletion: 35,
-    timeSpent: 28,
-    lastActivity: '2024-12-18',
-  },
-];
+// Generate students for sections
+const generateStudentsForSection = (section: Section, count: number): Student[] => {
+  const students: Student[] = [];
+  const firstNames = ['Arjun', 'Priya', 'Rahul', 'Neha', 'Amit', 'Sneha', 'Vikram', 'Ananya', 'Karan', 'Ishita', 'Rohan', 'Divya', 'Aditya', 'Kavya', 'Nikhil'];
+  const lastNames = ['Patel', 'Sharma', 'Kumar', 'Gupta', 'Singh', 'Reddy', 'Nair', 'Menon', 'Iyer', 'Joshi', 'Kapoor', 'Malhotra', 'Chopra', 'Banerjee', 'Das'];
+  
+  for (let i = 0; i < count; i++) {
+    const firstName = firstNames[i % firstNames.length];
+    const lastName = lastNames[Math.floor(i / firstNames.length) % lastNames.length];
+    const avgScore = Math.floor(Math.random() * 45) + 55; // 55-100
+    const completion = Math.floor(Math.random() * 40) + 60; // 60-100
+    const attendance = Math.floor(Math.random() * 30) + 70; // 70-100
+    
+    students.push({
+      id: `${section.id}-s${i + 1}`,
+      universityId: section.universityId,
+      programKey: section.programKey,
+      batchId: section.batchId,
+      sectionId: section.id,
+      name: `${firstName} ${lastName}`,
+      email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}@${section.universityId}.edu`,
+      rollNo: `${section.code.replace('Sec-', '')}${String(i + 1).padStart(3, '0')}`,
+      status: 'active',
+      joinedAt: '2024-08-15',
+      avgScore,
+      completion,
+      attendance,
+      examAvg: avgScore + Math.floor(Math.random() * 6) - 3,
+      assignmentCompletion: completion + Math.floor(Math.random() * 10) - 5,
+      timeSpent: Math.floor(Math.random() * 100) + 50,
+      lastActivity: ['2024-12-28', '2024-12-27', '2024-12-26', '2024-12-25'][Math.floor(Math.random() * 4)],
+    });
+  }
+  return students;
+};
+
+export const students: Student[] = sections.flatMap(section => 
+  generateStudentsForSection(section, Math.min(section.studentsCount, 15))
+);
 
 // Teachers
 export const teachers: Teacher[] = [
-  {
-    id: 'teacher-1',
-    organizationId: 'org-1',
-    programs: ['prog-1', 'prog-2'],
-    sections: ['sec-1', 'sec-4'],
-    name: 'Prof. Ananya Sharma',
-    email: 'ananya.sharma@xyz.edu',
-    status: 'active',
-    joinedAt: '2023-06-15',
-    avgRating: 4.6,
-    feedbackCount: 156,
-    responseRate: 92,
-    studentsCount: 175,
-  },
-  {
-    id: 'teacher-2',
-    organizationId: 'org-1',
-    programs: ['prog-1'],
-    sections: ['sec-2'],
-    name: 'Dr. Rajesh Menon',
-    email: 'rajesh.menon@xyz.edu',
-    status: 'active',
-    joinedAt: '2023-08-20',
-    avgRating: 4.4,
-    feedbackCount: 98,
-    responseRate: 88,
-    studentsCount: 92,
-  },
-  {
-    id: 'teacher-3',
-    organizationId: 'org-1',
-    programs: ['prog-1', 'prog-3'],
-    sections: ['sec-3'],
-    name: 'Prof. Kavita Iyer',
-    email: 'kavita.iyer@xyz.edu',
-    status: 'active',
-    joinedAt: '2023-05-10',
-    avgRating: 4.8,
-    feedbackCount: 203,
-    responseRate: 95,
-    studentsCount: 93,
-  },
-  {
-    id: 'teacher-4',
-    organizationId: 'org-2',
-    programs: ['prog-4'],
-    sections: [],
-    name: 'Dr. Suresh Nair',
-    email: 'suresh.nair@ait.edu',
-    status: 'active',
-    joinedAt: '2024-01-10',
-    avgRating: 4.2,
-    feedbackCount: 45,
-    responseRate: 85,
-    studentsCount: 120,
-  },
+  { id: 't1', universityId: 'lpu', programs: ['genai', 'data-science'], sections: ['lpu-genai-2025-a', 'lpu-genai-2024-a'], name: 'Prof. Ananya Sharma', email: 'ananya.sharma@lpu.edu', status: 'active', joinedAt: '2023-06-15', avgRating: 4.6, feedbackCount: 156, responseRate: 92, studentsCount: 420 },
+  { id: 't2', universityId: 'lpu', programs: ['genai'], sections: ['lpu-genai-2025-b', 'lpu-genai-2024-b'], name: 'Dr. Rajesh Menon', email: 'rajesh.menon@lpu.edu', status: 'active', joinedAt: '2023-08-20', avgRating: 4.4, feedbackCount: 98, responseRate: 88, studentsCount: 415 },
+  { id: 't3', universityId: 'lpu', programs: ['genai', 'cloud-computing'], sections: ['lpu-genai-2025-c', 'lpu-genai-2024-c'], name: 'Prof. Suresh Nair', email: 'suresh.nair@lpu.edu', status: 'active', joinedAt: '2023-09-10', avgRating: 4.5, feedbackCount: 112, responseRate: 90, studentsCount: 415 },
+  { id: 't4', universityId: 'bits', programs: ['genai'], sections: ['bits-genai-2025-a'], name: 'Dr. Meera Iyer', email: 'meera.iyer@bits.edu', status: 'active', joinedAt: '2022-07-01', avgRating: 4.8, feedbackCount: 203, responseRate: 95, studentsCount: 170 },
+  { id: 't5', universityId: 'bits', programs: ['genai', 'data-science'], sections: ['bits-genai-2025-b'], name: 'Prof. Arun Kapoor', email: 'arun.kapoor@bits.edu', status: 'active', joinedAt: '2022-08-15', avgRating: 4.7, feedbackCount: 187, responseRate: 93, studentsCount: 165 },
+  { id: 't6', universityId: 'bits', programs: ['genai'], sections: ['bits-genai-2025-c'], name: 'Dr. Priya Reddy', email: 'priya.reddy@bits.edu', status: 'active', joinedAt: '2023-01-10', avgRating: 4.6, feedbackCount: 145, responseRate: 91, studentsCount: 165 },
+  { id: 't7', universityId: 'srm', programs: ['genai', 'cloud-computing'], sections: ['srm-genai-2025-a'], name: 'Prof. Vikram Das', email: 'vikram.das@srm.edu', status: 'active', joinedAt: '2023-03-15', avgRating: 4.3, feedbackCount: 89, responseRate: 85, studentsCount: 250 },
+  { id: 't8', universityId: 'srm', programs: ['genai'], sections: ['srm-genai-2025-b'], name: 'Dr. Kavitha Nair', email: 'kavitha.nair@srm.edu', status: 'active', joinedAt: '2023-05-20', avgRating: 4.4, feedbackCount: 95, responseRate: 87, studentsCount: 250 },
+  { id: 't9', universityId: 'srm', programs: ['genai', 'data-science'], sections: ['srm-genai-2025-c'], name: 'Prof. Ravi Kumar', email: 'ravi.kumar@srm.edu', status: 'active', joinedAt: '2023-06-01', avgRating: 4.2, feedbackCount: 78, responseRate: 84, studentsCount: 250 },
 ];
 
 // Exams
 export const exams: Exam[] = [
   {
     id: 'exam-1',
-    createdByTeacherId: 'teacher-1',
+    createdByTeacherId: 't1',
     teacherName: 'Prof. Ananya Sharma',
-    organizationId: 'org-1',
-    programId: 'prog-1',
-    batchId: 'batch-1',
-    sectionIds: ['sec-1', 'sec-4'],
-    sectionNames: ['K24BX', 'K25BX'],
+    universityId: 'lpu',
+    programKey: 'genai',
+    batchId: 'lpu-genai-2025',
+    sectionIds: ['lpu-genai-2025-a', 'lpu-genai-2025-b'],
+    sectionNames: ['Sec-A', 'Sec-B'],
     type: 'MCQ',
-    title: 'Introduction to Neural Networks',
+    title: 'GenAI Fundamentals Mid-Term',
     schedule: '2025-01-15T10:00:00',
     duration: 90,
     totalMarks: 100,
@@ -546,79 +441,60 @@ export const exams: Exam[] = [
   },
   {
     id: 'exam-2',
-    createdByTeacherId: 'teacher-2',
-    teacherName: 'Dr. Rajesh Menon',
-    organizationId: 'org-1',
-    programId: 'prog-1',
-    batchId: 'batch-1',
-    sectionIds: ['sec-2'],
-    sectionNames: ['P24KX'],
+    createdByTeacherId: 't4',
+    teacherName: 'Dr. Meera Iyer',
+    universityId: 'bits',
+    programKey: 'genai',
+    batchId: 'bits-genai-2025',
+    sectionIds: ['bits-genai-2025-a'],
+    sectionNames: ['Sec-A'],
     type: 'Coding',
-    title: 'Python Data Structures Assessment',
+    title: 'Prompt Engineering Lab Assessment',
     schedule: '2025-01-18T14:00:00',
     duration: 120,
-    totalMarks: 150,
+    totalMarks: 100,
     status: 'PendingApproval',
-    submittedAt: '2024-12-27T16:45:00',
-    questionsCount: 8,
+    submittedAt: '2024-12-27T11:00:00',
+    questionsCount: 5,
   },
   {
     id: 'exam-3',
-    createdByTeacherId: 'teacher-3',
-    teacherName: 'Prof. Kavita Iyer',
-    organizationId: 'org-1',
-    programId: 'prog-1',
-    batchId: 'batch-1',
-    sectionIds: ['sec-3'],
-    sectionNames: ['G24KX'],
+    createdByTeacherId: 't2',
+    teacherName: 'Dr. Rajesh Menon',
+    universityId: 'lpu',
+    programKey: 'genai',
+    batchId: 'lpu-genai-2024',
+    sectionIds: ['lpu-genai-2024-b'],
+    sectionNames: ['Sec-B'],
     type: 'Mixed',
-    title: 'Machine Learning Fundamentals',
+    title: 'Neural Networks Final Exam',
     schedule: '2025-01-20T09:00:00',
     duration: 180,
-    totalMarks: 200,
+    totalMarks: 150,
     status: 'Approved',
-    submittedAt: '2024-12-25T11:00:00',
+    submittedAt: '2024-12-20T16:00:00',
     approvedByAdminId: 'admin-1',
-    approvalNotes: 'Well-structured exam with good variety of questions.',
+    approvalNotes: 'Well structured exam with good coverage',
     questionsCount: 35,
   },
   {
     id: 'exam-4',
-    createdByTeacherId: 'teacher-1',
-    teacherName: 'Prof. Ananya Sharma',
-    organizationId: 'org-1',
-    programId: 'prog-1',
-    batchId: 'batch-1',
-    sectionIds: ['sec-1'],
-    sectionNames: ['K24BX'],
+    createdByTeacherId: 't7',
+    teacherName: 'Prof. Vikram Das',
+    universityId: 'srm',
+    programKey: 'genai',
+    batchId: 'srm-genai-2025',
+    sectionIds: ['srm-genai-2025-a', 'srm-genai-2025-b', 'srm-genai-2025-c'],
+    sectionNames: ['Sec-A', 'Sec-B', 'Sec-C'],
     type: 'MCQ',
-    title: 'Deep Learning Basics Quiz',
-    schedule: '2024-12-20T10:00:00',
-    duration: 60,
+    title: 'LLM Architecture Quiz',
+    schedule: '2025-01-10T11:00:00',
+    duration: 45,
     totalMarks: 50,
-    status: 'Completed',
+    status: 'Published',
     submittedAt: '2024-12-15T09:00:00',
     approvedByAdminId: 'admin-1',
     questionsCount: 25,
-  },
-  {
-    id: 'exam-5',
-    createdByTeacherId: 'teacher-2',
-    teacherName: 'Dr. Rajesh Menon',
-    organizationId: 'org-1',
-    programId: 'prog-1',
-    batchId: 'batch-1',
-    sectionIds: ['sec-2'],
-    sectionNames: ['P24KX'],
-    type: 'Coding',
-    title: 'Algorithm Design Challenge',
-    schedule: '2025-01-25T14:00:00',
-    duration: 150,
-    totalMarks: 200,
-    status: 'Rejected',
-    submittedAt: '2024-12-26T10:30:00',
-    approvalNotes: 'Please add more test cases for problem 3 and clarify constraints for problem 5.',
-    questionsCount: 5,
   },
 ];
 
@@ -628,117 +504,78 @@ export const notifications: Notification[] = [
     id: 'notif-1',
     type: 'exam_approval',
     title: 'Exam Pending Approval',
-    message: 'Prof. Ananya Sharma submitted "Introduction to Neural Networks" for approval',
+    message: 'Prof. Ananya Sharma submitted "GenAI Fundamentals Mid-Term" for approval',
     entityType: 'exam',
     entityId: 'exam-1',
-    createdAt: '2024-12-28T14:35:00',
+    createdAt: '2024-12-28T14:30:00',
     isRead: false,
   },
   {
     id: 'notif-2',
     type: 'exam_approval',
     title: 'Exam Pending Approval',
-    message: 'Dr. Rajesh Menon submitted "Python Data Structures Assessment" for approval',
+    message: 'Dr. Meera Iyer submitted "Prompt Engineering Lab Assessment" for approval',
     entityType: 'exam',
     entityId: 'exam-2',
-    createdAt: '2024-12-27T16:50:00',
+    createdAt: '2024-12-27T11:00:00',
     isRead: false,
   },
   {
     id: 'notif-3',
-    type: 'student_alert',
-    title: 'At-Risk Student Alert',
-    message: 'Amit Singh (K24BX005) has low attendance (55%) and needs intervention',
-    entityType: 'student',
-    entityId: 'student-5',
-    createdAt: '2024-12-27T09:00:00',
-    isRead: false,
-  },
-  {
-    id: 'notif-4',
-    type: 'organization_created',
-    title: 'New Organization Added',
-    message: 'Global Tech Academy has been successfully onboarded',
-    entityType: 'organization',
-    entityId: 'org-3',
-    createdAt: '2024-12-26T11:20:00',
+    type: 'teacher_created',
+    title: 'New Teacher Added',
+    message: 'Prof. Vikram Das joined SRM as GenAI instructor',
+    entityType: 'teacher',
+    entityId: 't7',
+    createdAt: '2024-12-26T09:00:00',
     isRead: true,
   },
   {
-    id: 'notif-5',
-    type: 'system',
-    title: 'System Maintenance',
-    message: 'Scheduled maintenance on January 5th, 2025 from 2:00 AM to 4:00 AM IST',
-    createdAt: '2024-12-25T15:00:00',
+    id: 'notif-4',
+    type: 'student_alert',
+    title: 'At-Risk Student Alert',
+    message: '5 students in LPU GenAI Sec-A have attendance below 70%',
+    entityType: 'section',
+    entityId: 'lpu-genai-2025-a',
+    createdAt: '2024-12-25T16:00:00',
     isRead: true,
   },
 ];
 
 // Audit Logs
 export const auditLogs: AuditLog[] = [
-  {
-    id: 'log-1',
-    adminId: 'admin-1',
-    adminName: 'Admin User',
-    action: 'APPROVED_EXAM',
-    entityType: 'exam',
-    entityId: 'exam-3',
-    timestamp: '2024-12-25T11:30:00',
-    details: 'Approved exam "Machine Learning Fundamentals" with notes',
-  },
-  {
-    id: 'log-2',
-    adminId: 'admin-1',
-    adminName: 'Admin User',
-    action: 'REJECTED_EXAM',
-    entityType: 'exam',
-    entityId: 'exam-5',
-    timestamp: '2024-12-26T14:15:00',
-    details: 'Rejected exam "Algorithm Design Challenge" - needs more test cases',
-  },
-  {
-    id: 'log-3',
-    adminId: 'admin-1',
-    adminName: 'Admin User',
-    action: 'CREATED_ORGANIZATION',
-    entityType: 'organization',
-    entityId: 'org-3',
-    timestamp: '2024-12-26T11:20:00',
-    details: 'Created new organization "Global Tech Academy"',
-  },
-  {
-    id: 'log-4',
-    adminId: 'admin-1',
-    adminName: 'Admin User',
-    action: 'CREATED_TEACHER',
-    entityType: 'teacher',
-    entityId: 'teacher-4',
-    timestamp: '2024-12-24T09:45:00',
-    details: 'Created teacher account for Dr. Suresh Nair',
-  },
+  { id: 'log-1', adminId: 'admin-1', adminName: 'Admin User', action: 'Approved Exam', entityType: 'exam', entityId: 'exam-3', timestamp: '2024-12-21T10:00:00', details: 'Approved "Neural Networks Final Exam"' },
+  { id: 'log-2', adminId: 'admin-1', adminName: 'Admin User', action: 'Created Teacher', entityType: 'teacher', entityId: 't9', timestamp: '2024-12-20T14:00:00', details: 'Added Prof. Ravi Kumar to SRM' },
+  { id: 'log-3', adminId: 'admin-1', adminName: 'Admin User', action: 'Updated University', entityType: 'university', entityId: 'bits', timestamp: '2024-12-19T09:30:00', details: 'Updated BITS Pilani contact details' },
 ];
 
 // Helper functions
-export const getOrganizationById = (id: string) => organizations.find(o => o.id === id);
-export const getProgramById = (id: string) => programs.find(p => p.id === id);
-export const getBatchById = (id: string) => batches.find(b => b.id === id);
-export const getSectionById = (id: string) => sections.find(s => s.id === id);
-export const getStudentById = (id: string) => students.find(s => s.id === id);
-export const getTeacherById = (id: string) => teachers.find(t => t.id === id);
-export const getExamById = (id: string) => exams.find(e => e.id === id);
+export const getUniversityById = (id: string) => universities.find(u => u.id === id);
 
-export const getProgramsByOrganization = (orgId: string) => programs.filter(p => p.organizationId === orgId);
-export const getBatchesByProgram = (programId: string) => batches.filter(b => b.programId === programId);
-export const getSectionsByBatch = (batchId: string) => sections.filter(s => s.batchId === batchId);
-export const getStudentsBySection = (sectionId: string) => students.filter(s => s.sectionId === sectionId);
-export const getTeachersByOrganization = (orgId: string) => teachers.filter(t => t.organizationId === orgId);
-export const getExamsByStatus = (status: Exam['status']) => exams.filter(e => e.status === status);
+export const getProgramsByUniversity = (universityId: string) => 
+  programs.filter(p => p.universityId === universityId);
 
-export const getTopPerformers = (count: number = 3) => 
-  [...students].sort((a, b) => b.avgScore - a.avgScore).slice(0, count);
+export const getBatchesByProgram = (universityId: string, programKey: string) => 
+  batches.filter(b => b.universityId === universityId && b.programKey === programKey);
 
-export const getNeedsSupport = (count: number = 5) => 
-  students.filter(s => s.attendance < 70 || s.completion < 50 || s.avgScore < 60).slice(0, count);
+export const getSectionsByBatch = (batchId: string) => 
+  sections.filter(s => s.batchId === batchId);
+
+export const getStudentsBySection = (sectionId: string) => 
+  students.filter(s => s.sectionId === sectionId);
 
 export const getPendingExams = () => exams.filter(e => e.status === 'PendingApproval');
+
 export const getUnreadNotifications = () => notifications.filter(n => !n.isRead);
+
+export const getTopPerformers = (sectionId: string, limit: number = 3) => 
+  students
+    .filter(s => s.sectionId === sectionId)
+    .sort((a, b) => b.avgScore - a.avgScore)
+    .slice(0, limit);
+
+export const getNeedsSupport = (sectionId: string, limit: number = 3) =>
+  students
+    .filter(s => s.sectionId === sectionId && (s.avgScore < 60 || s.attendance < 70))
+    .sort((a, b) => a.avgScore - b.avgScore)
+    .slice(0, limit);
