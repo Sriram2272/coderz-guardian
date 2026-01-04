@@ -39,43 +39,21 @@ export default function UniversityDetail() {
           <span className="text-foreground font-medium">{university.name}</span>
         </nav>
 
-        {/* Header with Logo and Stats */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-card rounded-xl border border-border p-6">
-          <div className="flex items-center gap-4">
-            <Link to="/universities">
-              <Button variant="ghost" size="icon" className="rounded-full">
-                <ArrowLeft className="w-5 h-5" />
-              </Button>
-            </Link>
-            <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center">
-              <span className="text-primary font-bold text-xl">{university.code.slice(0, 2)}</span>
-            </div>
-            <div>
-              <h1 className="text-2xl font-display font-bold text-foreground">{university.name}</h1>
-              <div className="flex items-center gap-2 mt-1">
-                <Badge variant="secondary">{university.code}</Badge>
-                <Badge className="bg-success/10 text-success border-0">Active</Badge>
-              </div>
-            </div>
+        {/* Header with Logo */}
+        <div className="flex items-center gap-4">
+          <Link to="/universities">
+            <Button variant="ghost" size="icon" className="rounded-full">
+              <ArrowLeft className="w-5 h-5" />
+            </Button>
+          </Link>
+          <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center">
+            <span className="text-primary font-bold text-xl">{university.code.slice(0, 2)}</span>
           </div>
-          
-          {/* Quick Stats */}
-          <div className="flex items-center gap-6 md:gap-8">
-            <div className="text-center">
-              <p className="text-2xl font-bold text-foreground">{university.studentsCount.toLocaleString()}</p>
-              <p className="text-xs text-muted-foreground">Students</p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl font-bold text-primary">{university.avgScore}%</p>
-              <p className="text-xs text-muted-foreground">Avg Score</p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl font-bold text-foreground">{university.completion}%</p>
-              <p className="text-xs text-muted-foreground">Completion</p>
-            </div>
-            <div className="text-center">
-              <p className="text-2xl font-bold text-foreground">{university.attendance}%</p>
-              <p className="text-xs text-muted-foreground">Attendance</p>
+          <div>
+            <h1 className="text-2xl font-display font-bold text-foreground">{university.name}</h1>
+            <div className="flex items-center gap-2 mt-1">
+              <Badge variant="secondary">{university.code}</Badge>
+              <Badge className="bg-success/10 text-success border-0">Active</Badge>
             </div>
           </div>
         </div>
@@ -83,48 +61,20 @@ export default function UniversityDetail() {
         {/* KPI Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="bg-card rounded-xl border border-border p-5">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                <Users className="w-5 h-5 text-primary" />
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground">Total Students</p>
-                <p className="text-2xl font-bold text-foreground">{university.studentsCount.toLocaleString()}</p>
-              </div>
-            </div>
+            <p className="text-sm text-muted-foreground">Total Students</p>
+            <p className="text-3xl font-bold text-foreground mt-1">{university.studentsCount.toLocaleString()}</p>
           </div>
           <div className="bg-card rounded-xl border border-border p-5">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
-                <GraduationCap className="w-5 h-5 text-accent" />
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground">Programs</p>
-                <p className="text-2xl font-bold text-foreground">{universityPrograms.length}</p>
-              </div>
-            </div>
+            <p className="text-sm text-muted-foreground">Avg Score</p>
+            <p className="text-3xl font-bold text-primary mt-1">{university.avgScore}%</p>
           </div>
           <div className="bg-card rounded-xl border border-border p-5">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-success/10 flex items-center justify-center">
-                <Clock className="w-5 h-5 text-success" />
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground">Total Batches</p>
-                <p className="text-2xl font-bold text-foreground">{universityBatches.length}</p>
-              </div>
-            </div>
+            <p className="text-sm text-muted-foreground">Completion</p>
+            <p className="text-3xl font-bold text-foreground mt-1">{university.completion}%</p>
           </div>
           <div className="bg-card rounded-xl border border-border p-5">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-warning/10 flex items-center justify-center">
-                <UserCheck className="w-5 h-5 text-warning" />
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground">Trainers</p>
-                <p className="text-2xl font-bold text-foreground">{universityTeachers.length}</p>
-              </div>
-            </div>
+            <p className="text-sm text-muted-foreground">Attendance</p>
+            <p className="text-3xl font-bold text-accent mt-1">{university.attendance}%</p>
           </div>
         </div>
 
