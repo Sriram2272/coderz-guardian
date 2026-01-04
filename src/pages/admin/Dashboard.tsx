@@ -105,11 +105,11 @@ export default function Dashboard() {
           delay={4}
         />
         <KPICard
-          icon={TrendingUp}
+          icon={Users}
           iconBgColor="bg-primary/10"
           iconColor="text-primary"
-          label="Platform Avg Score"
-          value={`${avgScore}%`}
+          label="Total Trainers"
+          value="100"
           delay={5}
         />
       </div>
