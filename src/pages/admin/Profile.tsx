@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { 
   User, 
   Mail, 
@@ -14,7 +14,9 @@ import {
   Key,
   Bell,
   Globe,
-  Activity
+  Activity,
+  Camera,
+  Upload
 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -26,8 +28,10 @@ import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { toast } from 'sonner';
+import adminAvatar from '@/assets/admin-avatar.jpg';
 
-const adminData = {
+const initialAdminData = {
   name: 'Admin User',
   email: 'admin@codersz.com',
   phone: '+91 98765 43210',
@@ -39,7 +43,7 @@ const adminData = {
   lastLogin: '2025-01-09 10:30 AM',
   universitiesManaged: 12,
   totalActions: 1456,
-  avatar: '',
+  avatar: adminAvatar,
 };
 
 const recentActivity = [
@@ -63,16 +67,40 @@ const permissions = [
 
 export default function Profile() {
   const [isEditing, setIsEditing] = useState(false);
+  const [profileData, setProfileData] = useState(initialAdminData);
   const [formData, setFormData] = useState({
-    name: adminData.name,
-    email: adminData.email,
-    phone: adminData.phone,
-    location: adminData.location,
+    name: initialAdminData.name,
+    email: initialAdminData.email,
+    phone: initialAdminData.phone,
+    location: initialAdminData.location,
   });
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSave = () => {
-    // Save logic would go here
+    setProfileData(prev => ({
+      ...prev,
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      location: formData.location,
+    }));
     setIsEditing(false);
+    toast.success('Profile updated successfully!');
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileData(prev => ({
+          ...prev,
+          avatar: reader.result as string
+        }));
+        toast.success('Profile picture updated!');
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const getActivityIcon = (type: string) => {
@@ -109,37 +137,52 @@ export default function Profile() {
             <Card className="lg:col-span-1">
               <CardContent className="pt-6">
                 <div className="flex flex-col items-center text-center">
-                  <Avatar className="w-24 h-24 mb-4">
-                    <AvatarImage src={adminData.avatar} />
-                    <AvatarFallback className="bg-primary/20 text-primary text-2xl font-bold">
-                      AU
-                    </AvatarFallback>
-                  </Avatar>
-                  <h2 className="text-xl font-semibold text-foreground">{adminData.name}</h2>
+                  <div className="relative group">
+                    <Avatar className="w-24 h-24 mb-4">
+                      <AvatarImage src={profileData.avatar} />
+                      <AvatarFallback className="bg-primary/20 text-primary text-2xl font-bold">
+                        AU
+                      </AvatarFallback>
+                    </Avatar>
+                    <button 
+                      onClick={() => fileInputRef.current?.click()}
+                      className="absolute bottom-3 right-0 w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-lg hover:bg-primary/90 transition-colors"
+                    >
+                      <Camera className="w-4 h-4" />
+                    </button>
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      onChange={handleImageChange}
+                      accept="image/*"
+                      className="hidden"
+                    />
+                  </div>
+                  <h2 className="text-xl font-semibold text-foreground">{profileData.name}</h2>
                   <Badge className="mt-2 bg-primary/10 text-primary hover:bg-primary/20">
                     <Shield className="w-3 h-3 mr-1" />
-                    {adminData.role}
+                    {profileData.role}
                   </Badge>
-                  <p className="text-sm text-muted-foreground mt-2">{adminData.department}</p>
+                  <p className="text-sm text-muted-foreground mt-2">{profileData.department}</p>
                   
                   <Separator className="my-4 w-full" />
                   
                   <div className="w-full space-y-3 text-left">
                     <div className="flex items-center gap-3 text-sm">
                       <Mail className="w-4 h-4 text-muted-foreground" />
-                      <span className="text-foreground">{adminData.email}</span>
+                      <span className="text-foreground">{profileData.email}</span>
                     </div>
                     <div className="flex items-center gap-3 text-sm">
                       <Phone className="w-4 h-4 text-muted-foreground" />
-                      <span className="text-foreground">{adminData.phone}</span>
+                      <span className="text-foreground">{profileData.phone}</span>
                     </div>
                     <div className="flex items-center gap-3 text-sm">
                       <MapPin className="w-4 h-4 text-muted-foreground" />
-                      <span className="text-foreground">{adminData.location}</span>
+                      <span className="text-foreground">{profileData.location}</span>
                     </div>
                     <div className="flex items-center gap-3 text-sm">
                       <Globe className="w-4 h-4 text-muted-foreground" />
-                      <span className="text-foreground">{adminData.timezone}</span>
+                      <span className="text-foreground">{profileData.timezone}</span>
                     </div>
                   </div>
                   
@@ -147,11 +190,11 @@ export default function Profile() {
                   
                   <div className="w-full grid grid-cols-2 gap-4">
                     <div className="text-center p-3 rounded-lg bg-muted/50">
-                      <p className="text-2xl font-bold text-primary">{adminData.universitiesManaged}</p>
+                      <p className="text-2xl font-bold text-primary">{profileData.universitiesManaged}</p>
                       <p className="text-xs text-muted-foreground">Universities</p>
                     </div>
                     <div className="text-center p-3 rounded-lg bg-muted/50">
-                      <p className="text-2xl font-bold text-chart-2">{adminData.totalActions}</p>
+                      <p className="text-2xl font-bold text-chart-2">{profileData.totalActions}</p>
                       <p className="text-xs text-muted-foreground">Actions</p>
                     </div>
                   </div>
@@ -234,14 +277,14 @@ export default function Profile() {
                       <Calendar className="w-5 h-5 text-muted-foreground" />
                       <div>
                         <p className="text-xs text-muted-foreground">Member Since</p>
-                        <p className="text-sm font-medium">{new Date(adminData.joinDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                        <p className="text-sm font-medium">{new Date(profileData.joinDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
                       <Clock className="w-5 h-5 text-muted-foreground" />
                       <div>
                         <p className="text-xs text-muted-foreground">Last Login</p>
-                        <p className="text-sm font-medium">{adminData.lastLogin}</p>
+                        <p className="text-sm font-medium">{profileData.lastLogin}</p>
                       </div>
                     </div>
                   </div>
