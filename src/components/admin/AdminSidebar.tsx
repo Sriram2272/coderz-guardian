@@ -8,12 +8,10 @@ import {
   FileText, 
   BarChart3, 
   GitCompare, 
-  FileSearch,
   ChevronLeft,
   LogOut,
   User,
-  Settings,
-  UserCheck
+  Settings
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
@@ -24,6 +22,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import adminAvatar from '@/assets/admin-avatar.jpg';
 
 const navItems = [
   { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
@@ -105,9 +105,12 @@ export function AdminSidebar() {
               "w-full flex items-center gap-3 p-2 rounded-xl hover:bg-sidebar-accent transition-colors",
               isCollapsed && "justify-center"
             )}>
-              <div className="w-9 h-9 rounded-full bg-sidebar-primary/20 flex items-center justify-center">
-                <span className="text-sidebar-primary font-semibold text-sm">AU</span>
-              </div>
+              <Avatar className="w-9 h-9">
+                <AvatarImage src={adminAvatar} alt="Admin User" />
+                <AvatarFallback className="bg-sidebar-primary/20 text-sidebar-primary font-semibold text-sm">
+                  AU
+                </AvatarFallback>
+              </Avatar>
               {!isCollapsed && (
                 <div className="flex-1 text-left">
                   <p className="text-sm font-medium text-sidebar-foreground">Admin User</p>
