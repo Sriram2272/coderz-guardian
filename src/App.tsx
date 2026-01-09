@@ -18,6 +18,7 @@ import Assignments from "@/pages/admin/Assignments";
 import Analytics from "@/pages/admin/Analytics";
 import PlaceholderPage from "@/pages/admin/PlaceholderPage";
 import Compare from "@/pages/admin/Compare";
+import Profile from "@/pages/admin/Profile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -43,6 +44,7 @@ const App = () => (
             <Route path="/assignments" element={<Assignments />} />
             <Route path="/analytics" element={<Analytics />} />
             <Route path="/compare" element={<Compare />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="/notifications" element={<PlaceholderPage title="Notifications" />} />
             <Route path="/settings" element={<PlaceholderPage title="Settings" />} />
           </Route>
