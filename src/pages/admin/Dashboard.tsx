@@ -8,7 +8,8 @@ import {
   Plus,
   UserPlus,
   ArrowRight,
-  Star
+  Star,
+  LayoutGrid
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -56,23 +57,27 @@ export default function Dashboard() {
               Monitor universities, programs, batches, sections, and student performance.
             </p>
           </div>
-          <div className="flex flex-wrap gap-3">
+          <div className="grid grid-cols-2 gap-3">
             <Link to="/exams">
-              <Button variant="secondary" className="bg-card/90 hover:bg-card text-foreground">
+              <Button variant="secondary" className="w-full bg-card/90 hover:bg-card text-foreground">
                 <Eye className="w-4 h-4 mr-2" />
                 Review Exams
               </Button>
             </Link>
-            <Button className="bg-primary-foreground/10 border border-primary-foreground/20 hover:bg-primary-foreground/20 text-primary-foreground">
+            <Button className="w-full bg-primary-foreground/10 border border-primary-foreground/20 hover:bg-primary-foreground/20 text-primary-foreground">
               <Plus className="w-4 h-4 mr-2" />
               Create University
             </Button>
             <Link to="/teachers">
-              <Button className="bg-primary-foreground/10 border border-primary-foreground/20 hover:bg-primary-foreground/20 text-primary-foreground">
+              <Button className="w-full bg-primary-foreground/10 border border-primary-foreground/20 hover:bg-primary-foreground/20 text-primary-foreground">
                 <UserPlus className="w-4 h-4 mr-2" />
                 Create Teacher
               </Button>
             </Link>
+            <Button className="w-full bg-primary-foreground/10 border border-primary-foreground/20 hover:bg-primary-foreground/20 text-primary-foreground">
+              <LayoutGrid className="w-4 h-4 mr-2" />
+              Create Section
+            </Button>
           </div>
         </div>
       </div>
